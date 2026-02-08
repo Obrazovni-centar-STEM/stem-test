@@ -78,30 +78,30 @@
 
 <script>
     let qIdx = 0;
-    const pitanja = [
-        { q: "Pitanje 1: Koji uzrast najčešće podučavate?", a: ["Predškolci", "Mlađi osnovci", "Stariji osnovci"] },
-        { q: "Pitanje 2: Koliko vremena imate po sesiji?", a: ["15-30 min", "45-60 min", "Dvočas"] },
-        { q: "Pitanje 3: Da li deca rade u grupama ili samostalno?", a: ["Grupno", "Samostalno", "Kombinovano"] },
-        { q: "Pitanje 4: Koji nivo opreme posedujete?", a: ["Osnovno", "Srednje", "Napredno"] },
-        { q: "Pitanje 5: Koliko vam je važan vizuelni efekat?", a: ["Manje bitno", "Vrlo bitno", "Ključno"] },
-        { q: "Pitanje 6: Da li eksperiment mora biti prenosiv?", a: ["Da", "Ne", "Svejedno"] },
-        { q: "Pitanje 7: Koji je fokus?", a: ["Zabava", "Učenje", "I jedno i drugo"] },
-        { q: "Pitanje 8: Budžet za materijal?", a: ["Minimalan", "Umeren", "Visok"] },
-        { q: "Pitanje 9: Da li eksperiment zahteva struju?", a: ["Da", "Ne", "Poželjno"] },
-        { q: "Pitanje 10: Vaše dosadašnje iskustvo?", a: ["Početnik", "Napredni", "Stručnjak"] }
+  const pitanja = [
+        { q: "Pitanje 1: Koji uzrast najčešće podučavate?", a: ["Predškolci (3-6 god)", "Mlađi osnovci (7-10 god)", "Stariji osnovci (11-14 god)"] },
+        { q: "Pitanje 2: Gde najčešće izvodite aktivnosti?", a: ["U učionici / vrtiću", "Kod kuće", "Na otvorenom prostoru"] },
+        { q: "Pitanje 3: Koliko vremena imate na raspolaganju?", a: ["Brzi eksperiment (15 min)", "Standardna radionica (45 min)", "STEM projekat (90+ min)"] },
+        { q: "Pitanje 4: Kakav efekat želite da postignete?", a: ["WOW efekat (Eksplozije/Boje)", "Logički izazov (Rešavanje problema)", "Konstrukcija (Građenje nečega)"] },
+        { q: "Pitanje 5: Koliko dece učestvuje u aktivnosti?", a: ["Jedno dete", "Mala grupa (do 5)", "Velika grupa (cela učionica)"] },
+        { q: "Pitanje 6: Da li eksperiment mora biti prenosiv?", a: ["Da, radim na različitim mestima", "Ne, imam svoj fiksni prostor", "Svejedno mi je"] },
+        { q: "Pitanje 7: Koji nivo 'nereda' je prihvatljiv?", a: ["Samo suve aktivnosti", "Malo vode i boja je OK", "Nije mi bitno, očistićemo!"] },
+        { q: "Pitanje 8: Koji tip materijala preferirate?", a: ["Reciklažni materijali", "Namirnice iz kuhinje", "Elektronika i alati"] },
+        { q: "Pitanje 9: Šta vam je najveći izazov u STEM-u?", a: ["Pronalaženje ideja", "Objašnjavanje teorije", "Nabavka materijala"] },
+        { q: "Pitanje 10: Vaše dosadašnje iskustvo sa eksperimentima?", a: ["Prvi put istražujem", "Povremeno ih radim", "STEM mi je svakodnevica"] }
     ];
 
     const uzrastObjasnjenja = {
         predskolci: {
-            naslov: "STEM za Predškolce (3-6 godina)",
+            naslov: "STEM za predškolce (3-6 godina)",
             opis: "U ovom uzrastu fokus je na **senzomotorici**. Deca uče dodirom, mirisom i vidom. Eksperimenti moraju biti vizuelno fascinantni, bezbedni i kratki kako bi zadržali pažnju. Cilj je podsticanje radoznalosti i razvoj fine motorike kroz igru."
         },
         osnovci: {
-            naslov: "STEM za Osnovce (7-14 godina)",
+            naslov: "STEM za osnovce (7-14 godina)",
             opis: "Ovde prelazimo na **uzročno-posledične veze**. Deca počinju da razumeju logiku iza reakcija. Eksperimenti uključuju merenje, beleženje rezultata i samostalno testiranje hipoteza. Fokus je na razvoju kritičkog mišljenja i osnovama hemije i fizike."
         },
         srednjoskolci: {
-            naslov: "STEM za Srednjoškolce (15+ godina)",
+            naslov: "STEM za srednjoškolce (15+ godina)",
             opis: "Napredni koncepti koji zahtevaju **analitičko razmišljanje**. Eksperimenti su kompleksniji, često uključuju matematiku, elektroniku i ozbiljne hemijske procese. Cilj je priprema za stvarne naučne izazove i inovativne projekte."
         }
     };
@@ -195,3 +195,4 @@
 
 </body>
 </html>
+
