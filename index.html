@@ -3,28 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEM Laboratorija | Baza</title>
+    <title>STEM Laboratorija | Kviz i Baza</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap');
-        body { font-family: 'Outfit', sans-serif; background-color: #f8fafc; }
+        body { font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
         .step { display: none; }
         .step-active { display: block; animation: fadeIn 0.5s ease; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .tab-active { background-color: #4F46E5 !important; color: white !important; scale: 1.05; }
+        .tab-active { background-color: #4F46E5 !important; color: white !important; transform: scale(1.05); shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
+        .card-hover { transition: all 0.3s ease; }
+        .card-hover:hover { transform: translateY(-10px); shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
         .hidden { display: none; }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 min-h-screen">
 
 <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
 
-<div id="main-container" class="min-h-screen flex items-center justify-center p-4">
-    <div id="app-card" class="max-w-2xl w-full bg-white rounded-[3rem] shadow-2xl p-8 md:p-12 border border-white">
+<div id="quiz-container" class="min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-2xl w-full bg-white rounded-[3rem] shadow-2xl p-8 md:p-12 border border-white">
         
         <div id="step-0" class="step step-active text-center">
-            <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Započni STEM test i otključaj bazu eksperimenata</h2>
+            <h2 class="text-3xl font-extrabold text-gray-800 mb-6">Pristup STEM Bazi</h2>
             <form action="https://script.google.com/macros/s/AKfycbxZM9OWV6HrNk5I1KzFIFiAvAkeyXgoA3zZI_tAZUSOcCFWXTKg1W8JdOiDnnwUnp3KyQ/exec" 
                   method="POST" target="hidden_iframe" onsubmit="return startQuiz();">
                 <div class="space-y-4 text-left">
@@ -46,89 +48,95 @@
 
         <div id="step-2" class="step text-center">
             <div class="text-6xl text-green-500 mb-6"><i class="fas fa-check-circle"></i></div>
-            <h2 class="text-3xl font-bold text-gray-800 mb-8">Sve je spremno!</h2>
-            <button onclick="otkljucajBazu()" class="bg-indigo-600 text-white font-bold py-5 px-10 rounded-2xl shadow-xl w-full uppercase">
-                Prikaži bazu i objašnjenja
+            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-indigo-900">Sve je spremno!</h2>
+            <button onclick="prikaziBazu()" class="bg-indigo-600 text-white font-bold py-5 px-10 rounded-2xl shadow-xl w-full uppercase tracking-widest hover:bg-indigo-700 transition-all">
+                POGLEDAJ EKSPERIMENTE
             </button>
         </div>
     </div>
 </div>
 
-<div id="database-section" class="hidden min-h-screen pb-20">
+<div id="database-section" class="hidden">
     <header class="bg-indigo-700 text-white py-16 px-6 shadow-2xl rounded-b-[4rem] text-center mb-12">
-        <h1 class="text-5xl font-extrabold mb-4">STEM baza znanja</h1>
-        <p class="text-indigo-100 text-xl italic uppercase tracking-widest">Nauka prilagođena uzrastu</p>
+        <div class="max-w-4xl mx-auto">
+            <h1 class="text-5xl md:text-7xl font-[800] mb-6 tracking-tight">Eksperimenti za mlade naučnike</h1>
+            <p class="text-indigo-100 text-xl opacity-90 uppercase tracking-widest font-semibold">Nauka kroz igru i istraživanje</p>
+        </div>
     </header>
 
     <main class="max-w-6xl mx-auto px-4">
-        <div id="uzrast-info" class="bg-indigo-50 p-8 rounded-[2rem] mb-10 border-l-8 border-indigo-500 shadow-sm">
-            <h2 id="uzrast-naslov" class="text-2xl font-bold text-indigo-800 mb-2"></h2>
-            <p id="uzrast-opis" class="text-gray-700 leading-relaxed"></p>
-        </div>
-
         <div class="flex flex-wrap justify-center gap-4 mb-10">
-            <button onclick="prikazi('predskolci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent">PREDŠKOLCI</button>
-            <button onclick="prikazi('osnovci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent">OSNOVCI</button>
-            <button onclick="prikazi('srednjoskolci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent">SREDNJOŠKOLCI</button>
+            <button onclick="prikazi('predskolci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent">
+                PREDŠKOLCI (3-6)
+            </button>
+            <button onclick="prikazi('osnovci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent">
+                OSNOVCI (7-14)
+            </button>
+            <button onclick="prikazi('srednjoskolci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent">
+                SREDNJOŠKOLCI (15+)
+            </button>
         </div>
 
-        <div id="ekran" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        <div id="vaznost-sekcija" class="bg-indigo-50 p-8 rounded-3xl mb-12 text-center border border-indigo-100 shadow-inner">
+            <h2 class="text-2xl font-bold text-indigo-800 mb-3 italic">Zašto je nauka važna?</h2>
+            <p id="tekst-vaznosti" class="text-indigo-900 text-lg leading-relaxed"></p>
+        </div>
+
+        <div id="ekran" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20"></div>
     </main>
+
+    <footer class="bg-gray-900 text-white py-10 text-center">
+        <p class="opacity-50 text-sm font-light italic">© 2026 STEM Eksperimenti. Budućnost pripada radoznalima.</p>
+    </footer>
 </div>
 
 <script>
-    let qIdx = 0;
-  const pitanja = [
-        { q: "Pitanje 1: Koji uzrast najčešće podučavate?", a: ["Predškolci (3-6 god)", "Mlađi osnovci (7-10 god)", "Stariji osnovci (11-14 god)"] },
-        { q: "Pitanje 2: Gde najčešće izvodite aktivnosti?", a: ["U učionici / vrtiću", "Kod kuće", "Na otvorenom prostoru"] },
-        { q: "Pitanje 3: Koliko vremena imate na raspolaganju?", a: ["Brzi eksperiment (15 min)", "Standardna radionica (45 min)", "STEM projekat (90+ min)"] },
-        { q: "Pitanje 4: Kakav efekat želite da postignete?", a: ["WOW efekat (Eksplozije/Boje)", "Logički izazov (Rešavanje problema)", "Konstrukcija (Građenje nečega)"] },
-        { q: "Pitanje 5: Koliko dece učestvuje u aktivnosti?", a: ["Jedno dete", "Mala grupa (do 5)", "Velika grupa (cela učionica)"] },
-        { q: "Pitanje 6: Da li eksperiment mora biti prenosiv?", a: ["Da, radim na različitim mestima", "Ne, imam svoj fiksni prostor", "Svejedno mi je"] },
-        { q: "Pitanje 7: Koji nivo 'nereda' je prihvatljiv?", a: ["Samo suve aktivnosti", "Malo vode i boja je OK", "Nije mi bitno, očistićemo!"] },
-        { q: "Pitanje 8: Koji tip materijala preferirate?", a: ["Reciklažni materijali", "Namirnice iz kuhinje", "Elektronika i alati"] },
-        { q: "Pitanje 9: Šta vam je najveći izazov u STEM-u?", a: ["Pronalaženje ideja", "Objašnjavanje teorije", "Nabavka materijala"] },
-        { q: "Pitanje 10: Vaše dosadašnje iskustvo sa eksperimentima?", a: ["Prvi put istražujem", "Povremeno ih radim", "STEM mi je svakodnevica"] }
-    ];
-
-    const uzrastObjasnjenja = {
-        predskolci: {
-            naslov: "STEM za predškolce (3-6 godina)",
-            opis: "U ovom uzrastu fokus je na **senzomotorici**. Deca uče dodirom, mirisom i vidom. Eksperimenti moraju biti vizuelno fascinantni, bezbedni i kratki kako bi zadržali pažnju. Cilj je podsticanje radoznalosti i razvoj fine motorike kroz igru."
+    // TVOJI PODACI
+    const podaci = {
+        vaznost: {
+            predskolci: "Za najmlađe, nauka je čista igra koja budi čula. Kroz eksperimente deca uče da posmatraju svet, razvijaju finu motoriku i prvi put se susreću sa konceptom uzroka i posledice kroz boje i teksture.",
+            osnovci: "Osnovci kroz praktičan rad povezuju školsko gradivo sa stvarnim životom. Nauka im pomaže da vide 'nevidljive' zakone prirode, razvija strpljenje i uči ih da nauka nisu samo brojevi, već alatka za stvaranje.",
+            srednjoskolci: "Srednjoškolci kroz naučni metod uče kritičko razmišljanje i rešavanje kompleksnih problema. STEM veštine ih pripremaju za moderna zanimanja, uče ih etici u istraživanju i razumevanju tehnologija koje menjaju svet."
         },
-        osnovci: {
-            naslov: "STEM za osnovce (7-14 godina)",
-            opis: "Ovde prelazimo na **uzročno-posledične veze**. Deca počinju da razumeju logiku iza reakcija. Eksperimenti uključuju merenje, beleženje rezultata i samostalno testiranje hipoteza. Fokus je na razvoju kritičkog mišljenja i osnovama hemije i fizike."
-        },
-        srednjoskolci: {
-            naslov: "STEM za srednjoškolce (15+ godina)",
-            opis: "Napredni koncepti koji zahtevaju **analitičko razmišljanje**. Eksperimenti su kompleksniji, često uključuju matematiku, elektroniku i ozbiljne hemijske procese. Cilj je priprema za stvarne naučne izazove i inovativne projekte."
+        eksperimenti: {
+            predskolci: [
+                { n: "Magično mleko", p: "Sipaj mleko u tanjir, dodaj boje i štapić sa deterdžentom.", s: "Deterdžent razbija površinski napon mleka." },
+                { n: "Duga od bombona", p: "Poređaj bombone u krug i dodaj toplu vodu.", s: "Šećer i boja se kreću procesom difuzije." },
+                { n: "Gumeni medvedići", p: "Stavi ih u običnu i slanu vodu na 24 sata.", s: "Voda ulazi u medvedića kroz proces osmoze." },
+                { n: "Balon raketa", p: "Pomešaj sirće u flaši i sodu u balonu, pa navuci.", s: "Hemijska reakcija stvara gas CO2 koji širi balon." },
+                { n: "Ples grožđica", p: "Ubaci suve grožđice u čašu kisele vode.", s: "Mehurići gasa podižu grožđice na površinu." }
+            ],
+            osnovci: [
+                { n: "Lava lampa", p: "Pomešaj ulje, vodu, boju i šumeću tabletu.", s: "Razlika u gustini tečnosti i oslobađanje gasa CO2." },
+                { n: "Gumeno jaje", p: "Drži jaje u sirćetu 48 sati dok ljuska nestane.", s: "Sirćetna kiselina rastvara kalcijum-karbonat iz ljuske." },
+                { n: "Nevidljivo mastilo", p: "Piši limunom i zagrej papir sijalicom ili peglom.", s: "Oksidacija organskih materija pod uticajem toplote." },
+                { n: "Telefon na konac", p: "Poveži dve čaše dugačkim, zategnutim koncem.", s: "Prenos zvučnih talasa kroz čvrsta tela (vibracije)." },
+                { n: "Veštački sneg", p: "Pomešaj sodu bikarbonu i regenerator za kosu.", s: "Stvaranje polimernih veza i endotermna reakcija." }
+            ],
+            srednjoskolci: [
+                { n: "Izolacija DNK", p: "Zgnječi jagodu, dodaj deterdžent i hladan alkohol.", s: "Liza ćelija i taloženje DNK niti u alkoholu." },
+                { n: "Elektroliza", p: "Koristi bateriju od 9V i olovke u slanoj vodi.", s: "Razlaganje molekula vode na vodonik i kiseonik strujom." },
+                { n: "Oobleck fluid", p: "Pomešaj skrob i vodu u srazmeri 2:1.", s: "Nenjutnovski fluidi menjaju viskoznost pod silom." },
+                { n: "Faradejev kavez", p: "Umotaj telefon u foliju da prekineš signal.", s: "Distribucija naelektrisanja blokira EM talase." },
+                { n: "Brzina svetlosti", p: "Meri tačke topljenja čokolade u mikrotalasnoj.", s: "Fizika stojnih talasa i njihova talasna dužina." }
+            ]
         }
     };
 
-    const podaci = {
-        predskolci: [
-            { n: "Šetajuća boja", p: "Sipaj vodu u čaše, dodaj boju i poveži ih ubrusom.", s: "Uče o upijanju i bojama." },
-            { n: "Magični pesak", p: "Napravi pesak koji se ne kvasi u vodi.", s: "Istraživanje tekstura i vode." },
-            { n: "Pena u boji", p: "Pomešaj sapunicu i boju pa duvaj balone kroz slamčicu.", s: "Razvoj pluća i motorike." },
-            { n: "Plutajuće voće", p: "Stavi pomorandžu sa korom i bez kore u vodu.", s: "Učenje o gustini i vazduhu." },
-            { n: "Ledeni blokovi", p: "Zaledi igračke u ledu i daj deci da ih 'spasu'.", s: "Agregatna stanja kroz igru." }
-        ],
-        osnovci: [
-            { n: "Vulkan u tegli", p: "Soda bikarbona, sirće i malo deterdženta.", s: "Hemijska reakcija baze i kiseline." },
-            { n: "Nevidljivo mastilo", p: "Piši limunovim sokom, pa zagrej papir.", s: "Oksidacija materije." },
-            { n: "Baterija od limuna", p: "Spoji limun, bakarnu žicu i cinkani ekser.", s: "Protok električne struje." },
-            { n: "Jaje u sirćetu", p: "Ostavi jaje u sirćetu 24 sata da postane gumeno.", s: "Rastvaranje kalcijuma." },
-            { n: "Periskop od kartona", p: "Napravi spravu za gledanje iza ugla pomoću ogledala.", s: "Refleksija svetlosti." }
-        ],
-        srednjoskolci: [
-            { n: "Elektroliza", p: "Razdvajanje vode na vodonik i kiseonik pomoću struje.", s: "Elektrohemijski procesi." },
-            { n: "Gajenje kristala", p: "Napravi prezasićeni rastvor soli i čekaj kristale.", s: "Struktura materije." },
-            { n: "Teslin kalem (mini)", p: "Sastavi mali strujni krug za bežični prenos energije.", s: "Elektromagnetizam." },
-            { n: "Izdvajanje DNK", p: "Procedura ekstrakcije DNK iz banane ili jagode.", s: "Molekularna biologija." },
-            { n: "Balon raketa", p: "Testiraj treći Njutnov zakon pomoću balona i kanapa.", s: "Zakon akcije i reakcije." }
-        ]
-    };
+    // LOGIKA KVIZA
+    let qIdx = 0;
+    const pitanja = [
+        { q: "Pitanje 1: Koji uzrast najčešće podučavate?", a: ["Predškolci", "Mlađi osnovci", "Stariji osnovci"] },
+        { q: "Pitanje 2: Koliko vremena imate po sesiji?", a: ["15-30 min", "45-60 min", "Dvočas"] },
+        { q: "Pitanje 3: Da li deca rade u grupama?", a: ["Grupno", "Samostalno", "Kombinovano"] },
+        { q: "Pitanje 4: Koji efekat želite?", a: ["WOW efekat", "Logika", "Gradnja"] },
+        { q: "Pitanje 5: Koliko dece učestvuje?", a: ["Do 5", "5-15", "15+"] },
+        { q: "Pitanje 6: Da li mora biti prenosivo?", a: ["Da", "Ne", "Svejedno"] },
+        { q: "Pitanje 7: Budžet za materijal?", a: ["Minimalan", "Srednji", "Visok"] },
+        { q: "Pitanje 8: Koji tip materijala?", a: ["Kuhinja", "Alati", "Elektronika"] },
+        { q: "Pitanje 9: Šta je najveći izazov?", a: ["Ideje", "Teorija", "Oprema"] },
+        { q: "Pitanje 10: Vaše iskustvo?", a: ["Početnik", "Napredni", "Stručnjak"] }
+    ];
 
     function startQuiz() {
         document.getElementById('step-0').classList.remove('step-active');
@@ -162,39 +170,37 @@
         }
     }
 
-    function otkljucajBazu() {
-        document.getElementById('main-container').classList.add('hidden');
+    function prikaziBazu() {
+        document.getElementById('quiz-container').classList.add('hidden');
         document.getElementById('database-section').classList.remove('hidden');
+        window.scrollTo(0,0);
         prikazi('predskolci', document.querySelector('.cat-btn'));
     }
 
     function prikazi(kat, btn) {
         document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('tab-active'));
-        if(btn) btn.classList.add('tab-active');
-
-        // Postavi objašnjenje za uzrast
-        document.getElementById('uzrast-naslov').innerText = uzrastObjasnjenja[kat].naslov;
-        document.getElementById('uzrast-opis').innerHTML = uzrastObjasnjenja[kat].opis;
-
+        btn.classList.add('tab-active');
+        document.getElementById('tekst-vaznosti').innerText = podaci.vaznost[kat];
         const ekran = document.getElementById('ekran');
         ekran.innerHTML = '';
-        
-        podaci[kat].forEach(e => {
-            const card = document.createElement('div');
-            card.className = "bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-50 hover:shadow-2xl transition-all";
-            card.innerHTML = `
-                <div class="w-12 h-12 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-xl"><i class="fas fa-flask"></i></div>
-                <h3 class="text-2xl font-bold text-gray-800 mb-4">${e.n}</h3>
-                <p class="text-gray-600 mb-6 leading-relaxed"><strong>Postupak:</strong> ${e.p}</p>
-                <div class="pt-6 border-t border-gray-100 text-sm font-bold text-indigo-500 uppercase tracking-widest">Nauka: ${e.s}</div>
+        podaci.eksperimenti[kat].forEach(exp => {
+            ekran.innerHTML += `
+                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 card-hover flex flex-col h-full">
+                    <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-2xl">
+                        <i class="fas fa-microscope"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold mb-4 text-gray-800 tracking-tight">${exp.n}</h3>
+                    <div class="flex-grow">
+                        <p class="text-indigo-600 text-xs font-black uppercase tracking-wider mb-2">Postupak:</p>
+                        <p class="text-gray-600 leading-relaxed mb-6">${exp.p}</p>
+                    </div>
+                    <div class="bg-indigo-50 p-5 rounded-2xl text-indigo-900 text-sm border border-indigo-100">
+                        <span class="font-bold">Nauka:</span> ${exp.s}
+                    </div>
+                </div>
             `;
-            ekran.appendChild(card);
         });
     }
 </script>
-
 </body>
 </html>
-
-
-
