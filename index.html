@@ -1,223 +1,915 @@
 <!DOCTYPE html>
 <html lang="sr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>STEM Laboratorija | Kviz i Baza</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;600;800&display=swap');
-        body { font-family: 'Outfit', sans-serif; scroll-behavior: smooth; }
-        .step { display: none; }
-        .step-active { display: block; animation: fadeIn 0.5s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-        .tab-active { background-color: #4F46E5 !important; color: white !important; transform: scale(1.05); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .card-hover { transition: all 0.3s ease; }
-        .card-hover:hover { transform: translateY(-10px); box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1); }
-        .hidden { display: none; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PREŽIVELA — Dajmo svakoj ženi priliku da živi, a ne da preživljava</title>
+<meta name="description" content="Kampanja PREŽIVELA pruža podršku i informacije ženama sa rizikom od povratka raka dojke. Nisi sama.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy:#0C2340;
+    --navy-deep:#081a31;
+    --ink:#122238;
+    --magenta:#C6318A;
+    --purple:#7A2E8E;
+    --pink:#F0A9CE;
+    --pink-soft:#FBEBF3;
+    --paper:#FCFAF7;
+    --blush:#FBF3F0;
+    --line:rgba(12,35,64,.12);
+    --muted:#5A6B7E;
+    --ribbon: linear-gradient(135deg,#C6318A 0%,#9B2C8A 55%,#7A2E8E 100%);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:"Manrope",system-ui,sans-serif;
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
+  h1,h2,h3{line-height:1.08;letter-spacing:-.01em}
+  .serif{font-family:"Fraunces",Georgia,serif;font-weight:400}
+  a{color:inherit}
+
+  /* eyebrow */
+  .eyebrow{
+    font-size:.72rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+    display:inline-flex;align-items:center;gap:.6em;color:var(--magenta);
+  }
+  .eyebrow::before{content:"";width:26px;height:2px;background:var(--ribbon)}
+
+  /* ===== NAV ===== */
+  nav{
+    position:sticky;top:0;z-index:50;background:rgba(252,250,247,.86);
+    backdrop-filter:blur(10px);border-bottom:1px solid var(--line);
+  }
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:66px}
+  .brand{display:flex;align-items:center;gap:11px;font-weight:800;letter-spacing:-.02em;font-size:1.05rem;text-decoration:none}
+  .brand .rib{width:22px;height:26px;flex:none}
+  .brand b{color:var(--magenta)}
+  .nav-cta{
+    text-decoration:none;font-weight:700;font-size:.9rem;
+    padding:.6em 1.15em;border-radius:999px;background:var(--navy);color:#fff;
+    transition:transform .18s ease,background .18s ease;white-space:nowrap;
+  }
+  .nav-cta:hover{background:var(--purple);transform:translateY(-1px)}
+  .nav-edit{
+    text-decoration:none;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;
+    padding:.55em 1.05em;border-radius:999px;background:transparent;border:1.5px solid var(--line);color:var(--navy);
+    display:inline-flex;align-items:center;gap:.5em;transition:border-color .18s ease,transform .18s ease;white-space:nowrap;
+  }
+  .nav-edit:hover{border-color:var(--navy);transform:translateY(-1px)}
+  .brand .logo-img{width:32px;height:32px;object-fit:contain;border-radius:9px;flex:none}
+
+  /* ===== HERO ===== */
+  .hero{position:relative;padding:76px 0 30px;overflow:hidden;background-size:cover;background-position:center;transition:background-image .3s ease}
+  .hero-glow{
+    position:absolute;inset:-20% -10% auto auto;width:640px;height:640px;
+    background:radial-gradient(circle at 70% 30%,rgba(198,49,138,.16),transparent 62%);
+    pointer-events:none;filter:blur(6px);z-index:0;
+  }
+  .hero-overlay{position:absolute;inset:0;background:var(--paper);opacity:0;transition:opacity .35s ease;z-index:0;pointer-events:none}
+  .hero.has-bg .hero-overlay{opacity:.85}
+  .hero .wrap{position:relative;z-index:1}
+  .hero-shape{position:absolute;border-radius:50%;opacity:.55;pointer-events:none;animation:floaty 7s ease-in-out infinite;z-index:0}
+  .hero-shape.s1{width:14px;height:14px;background:var(--pink);top:20%;left:5%;animation-delay:0s}
+  .hero-shape.s2{width:9px;height:9px;background:var(--magenta);top:64%;left:13%;animation-delay:1.3s}
+  .hero-shape.s3{width:19px;height:19px;background:var(--purple);top:34%;right:8%;animation-delay:.6s;opacity:.35}
+  .hero-shape.s4{width:8px;height:8px;background:var(--pink);top:78%;right:22%;animation-delay:2.1s}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(0deg)}50%{transform:translateY(-18px) rotate(8deg)}}
+  .wordmark{
+    font-weight:800;letter-spacing:-.035em;line-height:.9;white-space:nowrap;
+    font-size:clamp(2.9rem,12.5vw,8.8rem);margin:.32em 0 .1em;
+  }
+  .wordmark .pre{color:var(--navy);opacity:.32}
+  .wordmark .zivela{
+    background:var(--ribbon);-webkit-background-clip:text;background-clip:text;color:transparent;
+    position:relative;
+  }
+  .wordmark .zivela::after{
+    content:"";position:absolute;left:0;right:6%;bottom:.02em;height:.09em;border-radius:99px;
+    background:var(--ribbon);transform:scaleX(0);transform-origin:left;
+    animation:underline 1s .55s cubic-bezier(.2,.7,.2,1) forwards;
+  }
+  @keyframes underline{to{transform:scaleX(1)}}
+  .hero-lede{
+    font-size:clamp(1.35rem,3.2vw,2.15rem);max-width:20ch;color:var(--navy);
+    margin:.1em 0 .2em;font-weight:500;line-height:1.14;
+  }
+  .hero-lede em{font-style:italic;color:var(--magenta)}
+  .hero-sub{font-size:1.06rem;color:var(--muted);max-width:52ch;margin-bottom:1.9em}
+  .hero-sub .up{color:var(--navy);font-weight:700}
+  .btns{display:flex;flex-wrap:wrap;gap:14px}
+  .btn{
+    text-decoration:none;font-weight:700;font-size:1rem;padding:.92em 1.6em;border-radius:999px;
+    display:inline-flex;align-items:center;gap:.6em;transition:transform .18s ease,box-shadow .18s ease,background .18s ease;
+  }
+  .btn-primary{background:var(--ribbon);color:#fff;box-shadow:0 10px 28px -10px rgba(154,44,138,.6)}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 16px 34px -10px rgba(154,44,138,.7)}
+  .btn-ghost{background:transparent;color:var(--navy);border:1.5px solid var(--line)}
+  .btn-ghost:hover{border-color:var(--navy);transform:translateY(-2px)}
+
+  /* ===== COMMA / signature ===== */
+  .comma{background:var(--navy);color:#fff;position:relative;overflow:hidden}
+  .comma-mark{
+    position:absolute;right:2%;top:-8%;font-family:"Fraunces",serif;font-weight:400;
+    font-size:min(46vw,560px);line-height:1;color:rgba(240,169,206,.12);pointer-events:none;user-select:none;
+  }
+  .comma .wrap{position:relative;z-index:1;padding:96px 28px}
+  .comma blockquote{font-family:"Fraunces",serif;font-size:clamp(1.7rem,4.6vw,3.1rem);line-height:1.16;max-width:20ch;font-weight:400}
+  .comma blockquote .hl{color:var(--pink)}
+  .comma blockquote .strike{text-decoration:line-through;text-decoration-color:rgba(240,169,206,.5);opacity:.7}
+  .comma cite{display:block;margin-top:1.4em;font-family:"Manrope";font-style:normal;font-size:.92rem;letter-spacing:.02em;color:rgba(255,255,255,.66);font-weight:500}
+
+  /* ===== STATS ===== */
+  .stats{padding:92px 0}
+  .sec-head{max-width:none;margin-bottom:44px}
+  .sec-head h2{font-size:clamp(2rem,5vw,3.4rem);color:var(--navy);margin:.3em 0 .3em}
+  .sec-head p{color:var(--muted);font-size:1.05rem;max-width:56ch}
+  .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+  .stat{
+    padding:30px 26px 28px;border-radius:22px;background:#fff;border:1px solid var(--line);
+    display:flex;flex-direction:column;min-height:230px;transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .stat:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(12,35,64,.35)}
+  .stat .num{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(2.8rem,6vw,3.7rem);line-height:1;
+    background:var(--ribbon);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .stat .lbl{margin-top:auto;font-size:.98rem;color:var(--ink)}
+  .stat.dark{background:var(--navy);border-color:var(--navy)}
+  .stat.dark .lbl{color:rgba(255,255,255,.9)}
+  .stat.dark .num{background:linear-gradient(135deg,#F0A9CE,#C6318A);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .src{margin-top:26px;font-size:.8rem;color:var(--muted)}
+  .src a{color:var(--purple)}
+
+  /* ===== ALONE band ===== */
+  .alone{background:var(--pink-soft);padding:96px 0}
+  .alone-grid{display:grid;grid-template-columns:1fr 1.1fr;gap:56px;align-items:center}
+  .alone-kicker{font-family:"Fraunces",serif;font-size:clamp(1.15rem,2.4vw,1.5rem);color:var(--purple);margin:.2em 0 .35em}
+  .alone-title{font-size:clamp(2rem,5vw,3.2rem);color:var(--navy);line-height:1.08;font-weight:800;letter-spacing:-.02em}
+  .alone-title em{font-style:normal;background:var(--ribbon);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .msgs{display:flex;flex-direction:column;gap:16px}
+  .msg{background:#fff;border-radius:18px;padding:20px 22px;border:1px solid var(--line);font-size:1.04rem}
+  .msg b{color:var(--magenta)}
+
+  /* ===== PILLARS ===== */
+  .pillars{padding:96px 0}
+  .p-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;margin-top:44px}
+  .pill{border-radius:22px;padding:30px 28px 32px;background:#fff;border:1px solid var(--line);position:relative;transition:transform .25s ease,box-shadow .25s ease}
+  .pill:hover{transform:translateY(-6px) rotate(-.4deg);box-shadow:0 20px 40px -24px rgba(12,35,64,.35)}
+  .pill .ic{transition:transform .3s ease}
+  .pill:hover .ic{transform:scale(1.08) rotate(-4deg)}
+  .pill .ic{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;background:var(--blush);margin-bottom:18px}
+  .pill h3{font-size:1.28rem;color:var(--navy);margin-bottom:.5em}
+  .pill p{color:var(--muted);font-size:1rem}
+  .pill .n{position:absolute;top:26px;right:28px;font-family:"Fraunces",serif;font-size:1.1rem;color:var(--pink)}
+
+  /* ===== SUPPORT ===== */
+  .support{padding:0 0 96px}
+  .support-card{
+    background:var(--ribbon);border-radius:30px;color:#fff;padding:56px 52px;
+    display:grid;grid-template-columns:1.15fr .85fr;gap:40px;align-items:center;position:relative;overflow:hidden;
+  }
+  .support-card::after{content:"";position:absolute;right:-60px;bottom:-80px;width:320px;height:320px;border-radius:50%;background:rgba(255,255,255,.08)}
+  .support-card h2{font-size:clamp(1.7rem,4vw,2.5rem);line-height:1.1;margin-bottom:.4em}
+  .support-card p{color:rgba(255,255,255,.92);font-size:1.05rem;max-width:38ch}
+  .phone-box{position:relative;z-index:1;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.28);border-radius:22px;padding:28px 30px;backdrop-filter:blur(4px)}
+  .phone-box .k{font-size:.78rem;letter-spacing:.16em;text-transform:uppercase;opacity:.85}
+  .phone-box .tel{font-family:"Fraunces",serif;font-size:clamp(2rem,6vw,2.9rem);line-height:1;margin:.15em 0;display:block;text-decoration:none;color:#fff;font-weight:500}
+  .phone-box .hrs{font-size:.98rem;opacity:.92}
+
+  /* ===== CLOSING ===== */
+  .closing{background:var(--navy);color:#fff;text-align:center;padding:104px 0}
+  .closing h2{font-family:"Fraunces",serif;font-weight:400;font-size:clamp(2rem,6vw,3.6rem);line-height:1.1;max-width:16ch;margin:.4em auto .1em}
+  .closing h2 .hl{color:var(--pink)}
+  .closing .tag{color:rgba(255,255,255,.7);font-size:1.05rem;margin-bottom:2em}
+  .closing .btn-primary{background:#fff;color:var(--navy);box-shadow:none}
+  .closing .btn-primary:hover{background:var(--pink);color:var(--navy)}
+
+  /* ===== FOOTER ===== */
+  footer{background:var(--navy-deep);color:rgba(255,255,255,.72);padding:52px 0 40px;font-size:.9rem}
+  .foot-top{display:flex;flex-wrap:wrap;gap:24px;justify-content:space-between;align-items:center;padding-bottom:26px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .tags{display:flex;flex-wrap:wrap;gap:8px}
+  .tag-chip{font-size:.8rem;font-weight:600;color:#fff;background:rgba(255,255,255,.09);padding:.35em .8em;border-radius:999px}
+  .powered{display:flex;align-items:center;gap:10px;font-weight:700;color:#fff;letter-spacing:.02em}
+  .foot-note{padding-top:24px;font-size:.78rem;line-height:1.7;color:rgba(255,255,255,.5)}
+  .foot-note a{color:var(--pink)}
+
+  /* ===== BLOG ===== */
+  .blog{padding:20px 0 96px}
+  .blog-head{display:flex;flex-wrap:wrap;gap:20px;justify-content:space-between;align-items:flex-end;margin-bottom:40px}
+  .blog-head .sec-head{margin-bottom:0}
+  .add-btn{
+    text-decoration:none;font-family:inherit;font-weight:700;font-size:.95rem;cursor:pointer;
+    padding:.8em 1.35em;border-radius:999px;border:1.5px solid var(--navy);background:transparent;color:var(--navy);
+    display:inline-flex;align-items:center;gap:.55em;transition:transform .18s ease,background .18s ease,color .18s ease;white-space:nowrap;
+  }
+  .add-btn:hover{background:var(--navy);color:#fff;transform:translateY(-2px)}
+  .add-btn svg{flex:none}
+  .blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+  .post{
+    text-align:left;font-family:inherit;cursor:pointer;background:#fff;border:1px solid var(--line);
+    border-radius:22px;overflow:hidden;display:flex;flex-direction:column;transition:transform .2s ease,box-shadow .2s ease;
+  }
+  .post:hover{transform:translateY(-4px);box-shadow:0 20px 44px -24px rgba(12,35,64,.4)}
+  .post .cover{height:130px;background:var(--ribbon);position:relative;flex:none}
+  .post .cover::after{content:"";position:absolute;right:-30px;bottom:-40px;width:150px;height:150px;border-radius:50%;background:rgba(255,255,255,.12)}
+  .post .body{padding:22px 24px 26px;display:flex;flex-direction:column;flex:1}
+  .post .cat{font-size:.72rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta);margin-bottom:.7em}
+  .post h3{font-size:1.24rem;color:var(--navy);line-height:1.18;margin-bottom:.5em}
+  .post .ex{color:var(--muted);font-size:.98rem;flex:1}
+  .post .meta{margin-top:16px;font-size:.82rem;color:var(--muted);display:flex;gap:.5em;align-items:center}
+  .post .meta .dot{width:4px;height:4px;border-radius:50%;background:var(--pink)}
+  .blog-empty{grid-column:1/-1;color:var(--muted);text-align:center;padding:40px 0}
+
+  /* ===== MODAL ===== */
+  .modal{position:fixed;inset:0;z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
+  .modal.open{display:flex}
+  .modal-bg{position:absolute;inset:0;background:rgba(8,26,49,.55);backdrop-filter:blur(4px)}
+  .modal-card{position:relative;z-index:1;background:var(--paper);border-radius:24px;max-width:660px;width:100%;max-height:88vh;overflow:auto;padding:40px 40px 44px;box-shadow:0 40px 90px -30px rgba(8,26,49,.6)}
+  .modal-close{position:absolute;top:18px;right:18px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(12,35,64,.07);cursor:pointer;font-size:1.2rem;color:var(--navy);line-height:1;transition:background .18s ease}
+  .modal-close:hover{background:rgba(12,35,64,.14)}
+  .modal-card .cat{font-size:.74rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--magenta)}
+  .modal-card h2{font-family:"Fraunces",serif;font-weight:500;font-size:clamp(1.7rem,4vw,2.4rem);color:var(--navy);line-height:1.14;margin:.4em 0 .3em}
+  .modal-card .meta{font-size:.86rem;color:var(--muted);margin-bottom:1.4em}
+  .modal-card .content{white-space:pre-wrap;color:var(--ink);font-size:1.05rem;line-height:1.7}
+  /* form */
+  .field{margin-bottom:18px}
+  .field label{display:block;font-weight:700;font-size:.9rem;color:var(--navy);margin-bottom:.5em}
+  .field input,.field textarea{
+    width:100%;font-family:inherit;font-size:1rem;color:var(--ink);background:#fff;
+    border:1.5px solid var(--line);border-radius:12px;padding:.75em .9em;resize:vertical;
+  }
+  .field input:focus,.field textarea:focus{outline:none;border-color:var(--magenta)}
+  .form-actions{display:flex;gap:12px;margin-top:24px}
+  .form-actions .btn{padding:.8em 1.5em}
+  .form-actions .cancel{background:transparent;border:1.5px solid var(--line);color:var(--navy)}
+  .form-actions .cancel:hover{border-color:var(--navy)}
+
+  /* ===== EDIT PANEL ===== */
+  .edit-group{margin-bottom:26px;padding-bottom:24px;border-bottom:1px solid var(--line)}
+  .edit-group:last-of-type{border-bottom:none;padding-bottom:0;margin-bottom:0}
+  .edit-group h3{font-size:1.02rem;color:var(--navy);margin-bottom:.35em}
+  .edit-group .hint{font-size:.85rem;color:var(--muted);margin-top:.5em}
+  .thumb-row{display:flex;align-items:center;gap:14px;margin-top:12px;flex-wrap:wrap}
+  .thumb{width:60px;height:60px;border-radius:12px;object-fit:cover;border:1px solid var(--line);background:#fff}
+  .thumb.round{border-radius:50%}
+  .mini-btn{font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border:1.5px solid var(--line);background:#fff;color:var(--navy);padding:.55em .95em;border-radius:999px;transition:border-color .18s ease}
+  .mini-btn:hover{border-color:var(--navy)}
+  .ig-input-row{display:flex;gap:10px;margin-top:12px}
+  .ig-input-row input{flex:1}
+  .ig-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
+  .ig-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.6em .95em;font-size:.85rem;color:var(--ink)}
+  .ig-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .ig-row button{flex:none;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.05rem;line-height:1}
+  .ig-row button:hover{color:var(--magenta)}
+
+  /* ===== INSTAGRAM ===== */
+  .insta{padding:20px 0 96px}
+  .insta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;justify-items:center}
+  .insta-grid > *{width:100%;max-width:400px}
+  .insta-card{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#fff;display:flex;justify-content:center}
+  .insta-empty{grid-column:1/-1;text-align:center;color:var(--muted);background:#fff;border:1.5px dashed var(--line);border-radius:22px;padding:48px 24px;max-width:none;width:100%}
+  .insta-empty b{color:var(--navy)}
+
+  /* reveal */
+  .rv{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
+  .rv.in{opacity:1;transform:none}
+
+  @media (max-width:900px){
+    .grid{grid-template-columns:repeat(2,1fr)}
+    .alone-grid,.support-card{grid-template-columns:1fr;gap:30px}
+    .p-grid{grid-template-columns:1fr}
+    .blog-grid{grid-template-columns:repeat(2,1fr)}
+    .support-card{padding:40px 32px}
+  }
+  @media (max-width:560px){
+    .wrap{padding:0 20px}
+    .grid,.blog-grid{grid-template-columns:1fr}
+    .nav-cta{display:none}
+    .nav-edit span{display:none}
+    .comma .wrap{padding:70px 20px}
+    .btn{width:100%;justify-content:center}
+    .modal-card{padding:32px 24px 34px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    *{animation:none!important;transition:none!important}
+    .rv{opacity:1;transform:none}
+    html{scroll-behavior:auto}
+  }
+</style>
 </head>
-<body class="bg-slate-50 min-h-screen">
+<body>
 
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+<!-- ribbon SVG def reused inline -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="rib" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#C6318A"/><stop offset=".55" stop-color="#9B2C8A"/><stop offset="1" stop-color="#7A2E8E"/>
+    </linearGradient>
+  </defs>
+</svg>
 
-<div id="quiz-container" class="min-h-screen flex items-center justify-center p-4">
-    <div class="max-w-2xl w-full bg-white rounded-[3rem] shadow-2xl p-8 md:p-12 border border-white">
-        <div id="step-0" class="step step-active text-center">
-            <h2 class="text-3xl font-extrabold text-gray-800 mb-6 font-bold">Pokreni STEM test i otključaj eksperimente ☄️</h2>
-            <form action="https://script.google.com/macros/s/AKfycbxZM9OWV6HrNk5I1KzFIFiAvAkeyXgoA3zZI_tAZUSOcCFWXTKg1W8JdOiDnnwUnp3KyQ/exec" 
-                  method="POST" target="hidden_iframe" onsubmit="return startQuiz();">
-                <div class="space-y-4 text-left">
-                    <input type="text" name="ime" placeholder="Vaše ime" required class="w-full p-4 rounded-2xl border-2 border-gray-100 focus:border-indigo-500 outline-none bg-gray-50">
-                    <input type="email" name="email" placeholder="E-mail adresa" required class="w-full p-4 rounded-2xl border-2 border-gray-100 focus:border-indigo-500 outline-none bg-gray-50">
-                    <input type="text" name="zanimanje" placeholder="Zanimanje" required class="w-full p-4 rounded-2xl border-2 border-gray-100 focus:border-indigo-500 outline-none bg-gray-50">
-                    <button type="submit" class="w-full bg-indigo-600 text-white font-bold py-5 rounded-2xl hover:bg-indigo-700 shadow-xl transition-all uppercase tracking-widest mt-4">Otključaj bazu</button>
-                </div>
-            </form>
-        </div>
-        <div id="step-1" class="step text-center">
-            <div id="q-progress" class="text-indigo-500 font-bold mb-4 uppercase text-sm tracking-widest"></div>
-            <h3 id="q-text" class="text-2xl font-bold text-gray-800 mb-8 leading-tight italic"></h3>
-            <div id="q-options" class="grid gap-3"></div>
-        </div>
-        <div id="step-2" class="step text-center">
-            <div class="text-6xl text-green-500 mb-6"><i class="fas fa-check-circle"></i></div>
-            <h2 class="text-3xl font-bold text-gray-800 mb-8 text-indigo-900 uppercase font-bold">Sve je spremno!</h2>
-            <button onclick="prikaziBazu()" class="bg-indigo-600 text-white font-bold py-5 px-10 rounded-2xl shadow-xl w-full uppercase tracking-widest hover:bg-indigo-700 transition-all">POGLEDAJ EKSPERIMENTE</button>
-        </div>
+<nav>
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">
+      <span id="logoSlot">
+        <svg class="rib" viewBox="0 0 24 30" fill="none" aria-hidden="true">
+          <path d="M12 15 L4 29 L8.5 29 L12 21.5 M12 15 L20 29 L15.5 29 L12 21.5" stroke="url(#rib)" stroke-width="3" stroke-linejoin="round"/>
+          <path d="M12 2 C7 5 6 10 9 15 C6 20 8 24 12 21 C16 24 18 20 15 15 C18 10 17 5 12 2 Z" fill="none" stroke="url(#rib)" stroke-width="2.4"/>
+        </svg>
+      </span>
+      PRE<b>ŽIVELA</b>
+    </a>
+    <div style="display:flex;align-items:center;gap:10px">
+      <button class="nav-edit" id="openEdit" type="button">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5 13.5 4.5 5 13 2.5 13.5 3 11 11.5 2.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
+        <span>Uredi stranicu</span>
+      </button>
+      <a href="#podrska" class="nav-cta">Pozovi za podršku</a>
     </div>
+  </div>
+</nav>
+
+<header id="top" class="hero">
+  <div class="hero-overlay"></div>
+  <div class="hero-glow"></div>
+  <span class="hero-shape s1" aria-hidden="true"></span>
+  <span class="hero-shape s2" aria-hidden="true"></span>
+  <span class="hero-shape s3" aria-hidden="true"></span>
+  <span class="hero-shape s4" aria-hidden="true"></span>
+  <div class="wrap">
+    <span class="eyebrow">Kampanja podrške ženama sa rizikom od povratka raka dojke</span>
+    <h1 class="wordmark"><span class="pre">PRE</span><span class="zivela">ŽIVELA</span></h1>
+    <p class="hero-lede">Nisi <em>samo</em> preživela.<br>Ti živiš — svaki dan iznova.</p>
+    <p class="hero-sub">Dajmo svakoj ženi priliku da <span class="up">ŽIVI</span>, a ne da samo preživljava. Ovde su informacije, razumevanje i žene koje znaju kako je.</p>
+    <div class="btns">
+      <a href="#podrska" class="btn btn-primary">Pozovi centar za podršku →</a>
+      <a href="#strah" class="btn btn-ghost">Saznaj više</a>
+    </div>
+  </div>
+</header>
+
+<section class="comma">
+  <span class="comma-mark" aria-hidden="true">,</span>
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--pink)">Jedan zarez, ne tačka</span>
+    <blockquote>Dijagnoza nije <span class="strike">tačka</span> na kraju rečenice.<br>To je samo <span class="hl">zarez</span> u celom životu.</blockquote>
+    <cite>— poruka kampanje PREŽIVELA</cite>
+  </div>
+</section>
+
+<section id="strah" class="stats">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Strah koji se ne vidi spolja</span>
+      <h2>Kada se lečenje završi, tišina donese jedno pitanje: „Šta ako se vrati?"</h2>
+      <p>Taj strah je tih, ali stvaran. I mnogo je češći nego što mislimo.</p>
+    </div>
+    <div class="grid">
+      <div class="stat dark rv"><span class="num" data-count="81" data-suffix="%">0%</span><span class="lbl">žena nosi strah da će se rak dojke vratiti.</span></div>
+      <div class="stat rv"><span class="num" data-count="90" data-suffix="%">0%</span><span class="lbl">pacijentkinja želi da zna tačnu verovatnoću povratka bolesti.</span></div>
+      <div class="stat rv"><span class="num">1 od 3</span><span class="lbl">žene sa najčešćim tipom raka dojke nema pristup inovativnoj terapiji koja sprečava povratak.</span></div>
+      <div class="stat rv"><span class="num" data-count="50" data-suffix="%">0%</span><span class="lbl">Za toliko redovna adjuvantna terapija može da smanji rizik od povratka bolesti.</span></div>
+    </div>
+    <p class="src rv">Izvor: Zvanični izveštaj „Shining a spotlight on the impact of breast cancer recurrence", Novartis, april 2024. <a href="https://www.novartis.com/uk-en/shining-spotlight-impact-breast-cancer-recurrence" target="_blank" rel="noopener">Pogledaj istraživanje →</a></p>
+  </div>
+</section>
+
+<section class="alone">
+  <div class="wrap alone-grid">
+    <div class="rv">
+      <span class="eyebrow">Nisi sama</span>
+      <p class="alone-kicker">U redu je plašiti se.</p>
+      <h2 class="alone-title">Nije u redu da kroz taj strah <em>prolaziš sama</em>.</h2>
+    </div>
+    <div class="msgs">
+      <div class="msg rv">Strah od povratka bolesti jedno je od <b>najčešćih osećanja</b> nakon lečenja. To nije znak slabosti — to je prirodna reakcija na sve kroz šta si prošla.</div>
+      <div class="msg rv">Želja da znaš istinu <b>nije pesimizam</b>. To je ljudska potreba da ne živiš u neizvesnosti i da ponovo planiraš svoju budućnost.</div>
+      <div class="msg rv">Ne moraš da budeš „ista kao pre". Ne moraš sve odmah. Tvoj tempo je <b>jedini ispravan</b>.</div>
+    </div>
+  </div>
+</section>
+
+<section class="pillars">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <span class="eyebrow">Zajedno, korak po korak</span>
+      <h2>I kroz najgušću tišinu, svetlo nađe svoj put — a strah tada gubi moć.</h2>
+      <p>PREŽIVELA počiva na tri oslonca koji ženama vraćaju mir, sigurnost i kontrolu nad sopstvenom budućnošću.</p>
+    </div>
+    <div class="p-grid">
+      <div class="pill rv">
+        <span class="n serif">01</span>
+        <div class="ic">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="3.4" stroke="url(#rib)" stroke-width="2"/><path d="M6 21c0-3.9 2.7-6.5 6-6.5s6 2.6 6 6.5" stroke="url(#rib)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Informacija je tvoje pravo</h3>
+        <p>Kada imaš jasne odgovore od prvog dana, nisi nemoćna. Znanje o bolesti i terapiji je najjače oružje protiv straha.</p>
+      </div>
+      <div class="pill rv">
+        <span class="n serif">02</span>
+        <div class="ic">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.5-7-9.5A4 4 0 0 1 12 8a4 4 0 0 1 7 3.5C19 16.5 12 21 12 21Z" stroke="url(#rib)" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Inovativna terapija postoji</h3>
+        <p>Savremeni tretmani, primenjeni na vreme, smanjuju rizik od povratka bolesti i čuvaju kvalitet života.</p>
+      </div>
+      <div class="pill rv">
+        <span class="n serif">03</span>
+        <div class="ic">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none"><circle cx="8" cy="9" r="2.6" stroke="url(#rib)" stroke-width="2"/><circle cx="16" cy="9" r="2.6" stroke="url(#rib)" stroke-width="2"/><path d="M3.5 20c0-2.8 2-4.6 4.5-4.6s4.5 1.8 4.5 4.6M11.5 20c0-2.8 2-4.6 4.5-4.6s4.5 1.8 4.5 4.6" stroke="url(#rib)" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
+        <h3>Zajednica koja daje vetar u leđa</h3>
+        <p>Medicina, podrška udruženja i porodica prave mrežu u kojoj ne koračaš sama.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="instagram" class="insta">
+  <div class="wrap">
+    <div class="blog-head">
+      <div class="sec-head rv" style="margin-bottom:0">
+        <span class="eyebrow">Uživo sa Instagrama</span>
+        <h2>Pratite Ženski centar Milica.</h2>
+        <p>Najnovije objave, priče i pozivi na događaje — direktno sa zvaničnog Instagram profila.</p>
+      </div>
+      <button class="add-btn rv" id="openEdit2" type="button">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Dodaj objavu
+      </button>
+    </div>
+    <div class="insta-grid" id="instaGrid"></div>
+  </div>
+</section>
+
+<section id="price" class="blog">
+  <div class="wrap">
+    <div class="blog-head">
+      <div class="sec-head rv" style="margin-bottom:0">
+        <span class="eyebrow">Priče i saveti</span>
+        <h2>Reči koje razumeju kroz šta prolaziš.</h2>
+        <p>Iskustva, saveti lekara i podrška za dane kada je najteže. Dodaj i svoju priču.</p>
+      </div>
+      <button class="add-btn rv" id="openAdd">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        Dodaj blog
+      </button>
+    </div>
+    <div class="blog-grid" id="blogGrid"></div>
+  </div>
+</section>
+
+<!-- Read modal -->
+<div class="modal" id="readModal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="readTitle">
+    <button class="modal-close" data-close aria-label="Zatvori">✕</button>
+    <span class="cat" id="readCat"></span>
+    <h2 id="readTitle"></h2>
+    <div class="meta" id="readMeta"></div>
+    <div class="content" id="readContent"></div>
+  </div>
 </div>
 
-<div id="database-section" class="hidden">
-    <header class="bg-indigo-700 text-white py-16 px-6 shadow-2xl rounded-b-[4rem] text-center mb-12">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-5xl md:text-7xl font-bold mb-6 tracking-tight">STEM Laboratorija</h1>
-            <p class="text-indigo-100 text-xl opacity-90 uppercase tracking-widest font-semibold italic">Nauka prilagođena uzrastu</p>
-        </div>
-    </header>
-    <main class="max-w-6xl mx-auto px-4">
-        <div class="flex flex-wrap justify-center gap-4 mb-10 text-white font-bold uppercase">
-            <button onclick="prikazi('predskolci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent italic">PREDŠKOLCI (3-6)</button>
-            <button onclick="prikazi('osnovci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent italic">OSNOVCI (7-14)</button>
-            <button onclick="prikazi('srednjoskolci', this)" class="cat-btn bg-white text-indigo-700 px-8 py-4 rounded-2xl font-bold shadow-md hover:shadow-lg transition-all border-2 border-transparent italic">SREDNJOŠKOLCI (15+)</button>
-        </div>
-        <div id="vaznost-sekcija" class="bg-indigo-50 p-8 rounded-3xl mb-12 text-center border border-indigo-100 shadow-inner">
-            <h2 class="text-2xl font-bold text-indigo-800 mb-3 italic uppercase">Zašto je nauka važna?</h2>
-            <p id="tekst-vaznosti" class="text-indigo-900 text-lg leading-relaxed font-medium"></p>
-        </div>
-        <div id="ekran" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20"></div>
-    </main>
+<!-- Add modal -->
+<div class="modal" id="addModal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="addTitle">
+    <button class="modal-close" data-close aria-label="Zatvori">✕</button>
+    <span class="cat">Novi blog</span>
+    <h2 id="addTitle" style="margin-bottom:1em">Podeli svoju priču</h2>
+    <div class="field">
+      <label for="fCat">Kategorija</label>
+      <input id="fCat" type="text" placeholder="npr. Iskustvo, Savet lekara, Podrška" maxlength="40">
+    </div>
+    <div class="field">
+      <label for="fTitle">Naslov *</label>
+      <input id="fTitle" type="text" placeholder="Naslov bloga" maxlength="120">
+    </div>
+    <div class="field">
+      <label for="fAuthor">Autor</label>
+      <input id="fAuthor" type="text" placeholder="Ime i prezime ili „Anonimno“" maxlength="60">
+    </div>
+    <div class="field">
+      <label for="fExcerpt">Kratak opis</label>
+      <input id="fExcerpt" type="text" placeholder="Jedna rečenica koja se prikazuje na kartici" maxlength="160">
+    </div>
+    <div class="field">
+      <label for="fBody">Tekst *</label>
+      <textarea id="fBody" rows="7" placeholder="Napiši svoju priču…"></textarea>
+    </div>
+    <div class="form-actions">
+      <button class="btn btn-primary" id="saveBlog">Objavi blog</button>
+      <button class="btn cancel" data-close>Odustani</button>
+    </div>
+  </div>
 </div>
+
+<!-- Edit modal -->
+<div class="modal" id="editModal" aria-hidden="true">
+  <div class="modal-bg" data-close></div>
+  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="editTitle">
+    <button class="modal-close" data-close aria-label="Zatvori">✕</button>
+    <span class="cat">Podešavanja stranice</span>
+    <h2 id="editTitle" style="margin-bottom:1em">Uredi stranicu</h2>
+
+    <div class="edit-group">
+      <h3>Logo</h3>
+      <p class="hint">Zameni znak pored naziva PREŽIVELA u navigaciji.</p>
+      <div class="thumb-row">
+        <img class="thumb round" id="logoPreview" alt="Pregled loga" style="display:none">
+        <input type="file" id="logoFile" accept="image/*" style="display:none">
+        <button class="mini-btn" id="logoPick" type="button">Izaberi sliku</button>
+        <button class="mini-btn" id="logoReset" type="button">Vrati podrazumevano</button>
+      </div>
+    </div>
+
+    <div class="edit-group">
+      <h3>Pozadina hero sekcije</h3>
+      <p class="hint">Dodaj fotografiju u pozadini naslovne sekcije (na vrhu stranice).</p>
+      <div class="thumb-row">
+        <img class="thumb" id="bgPreview" alt="Pregled pozadine" style="display:none">
+        <input type="file" id="bgFile" accept="image/*" style="display:none">
+        <button class="mini-btn" id="bgPick" type="button">Izaberi sliku</button>
+        <button class="mini-btn" id="bgReset" type="button">Ukloni pozadinu</button>
+      </div>
+    </div>
+
+    <div class="edit-group">
+      <h3>Instagram objave</h3>
+      <p class="hint">Nalepi link ka javnoj Instagram objavi Ženskog centra Milica (npr. instagram.com/p/xxxxx) da bi se prikazala uživo na sajtu.</p>
+      <div class="ig-input-row">
+        <input type="text" id="igUrl" placeholder="https://www.instagram.com/p/…">
+        <button class="btn btn-primary" id="igAdd" style="padding:.7em 1.2em">Dodaj</button>
+      </div>
+      <div class="ig-list" id="igList"></div>
+    </div>
+
+    <div class="form-actions">
+      <button class="btn cancel" data-close>Gotovo</button>
+    </div>
+  </div>
+</div>
+
+<section id="podrska" class="support">
+  <div class="wrap">
+    <div class="support-card rv">
+      <div>
+        <span class="eyebrow" style="color:#fff">Ženski centar Milica</span>
+        <h2>Ne moraš da nosiš taj teret sama.</h2>
+        <p>Pozovi nas — saslušaćemo te, odgovorićemo na pitanja i zajedno ćemo doći do odgovora koji donose više sigurnosti.</p>
+      </div>
+      <div class="phone-box">
+        <span class="k">Besplatna linija podrške</span>
+        <a class="tel" href="tel:0800404040">0800 40 40 40</a>
+        <span class="hrs">Svakim radnim danom · 10–14h</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="closing">
+  <div class="wrap">
+    <span class="eyebrow" style="color:var(--pink);justify-content:center;display:flex">#PREŽIVELA</span>
+    <h2>Ti si preživela — da bi <span class="hl">ŽIVELA</span> i srećna nam bila.</h2>
+    <p class="tag">Podeli ovu poruku i širi nadu utemeljenu u nauci. Pokažimo svakoj ženi koja se danas bori da su šanse na njenoj strani.</p>
+    <div class="btns" style="justify-content:center">
+      <a class="btn btn-primary" href="#top">Podeli kampanju</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="tags">
+        <span class="tag-chip">#PreŽivela</span>
+        <span class="tag-chip">#ŽivelaiSrećnaNamBila</span>
+        <span class="tag-chip">#NovartisSrbija</span>
+        <span class="tag-chip">#ŽenskiCentarMilica</span>
+      </div>
+      <div class="powered">
+        <svg width="20" height="24" viewBox="0 0 24 30" fill="none" aria-hidden="true"><path d="M12 2 C7 5 6 10 9 15 C6 20 8 24 12 21 C16 24 18 20 15 15 C18 10 17 5 12 2 Z" fill="none" stroke="var(--pink)" stroke-width="2.2"/></svg>
+        Powered by NOVARTIS
+      </div>
+    </div>
+    <p class="foot-note">
+      Sadržaj ove stranice je informativnog karaktera i namenjen je podršci i osnaživanju žena. Ne zamenjuje savet, dijagnozu ili terapiju koju propisuje lekar — za sva pitanja o svom zdravlju obrati se svom onkologu.
+      Izvor podataka: <a href="https://www.novartis.com/uk-en/shining-spotlight-impact-breast-cancer-recurrence" target="_blank" rel="noopener">„Shining a spotlight on the impact of breast cancer recurrence"</a>, Novartis, april 2024.
+      <br>RS_07.26. FA-11735753
+    </p>
+  </div>
+</footer>
 
 <script>
-    const podaci = {
-        vaznost: {
-            predskolci: "Za najmlađe, nauka je čista igra koja budi čula. Kroz eksperimente deca uče da posmatraju svet i razvijaju finu motoriku.",
-            osnovci: "Osnovci kroz praktičan rad povezuju školsko gradivo sa stvarnim životom. Nauka im pomaže da razumeju svet oko sebe.",
-            srednjoskolci: "Srednjoškolci kroz naučni metod uče kritičko razmišljanje i rešavanje kompleksnih problema."
-        },
-        eksperimenti: {
-            predskolci: [
-                { n: "Magično mleko", p: "Sipaj mleko u tanjir, dodaj boje i štapić sa deterdžentom.", s: "Deterdžent razbija površinski napon mleka." },
-                { n: "Duga od bombona", p: "Poređaj bombone u krug i dodaj toplu vodu.", s: "Šećer i boja se kreću procesom difuzije." },
-                { n: "Gumeni medvedići", p: "Stavi ih u običnu i slanu vodu na 24 sata.", s: "Voda ulazi u medvedića kroz proces osmoze." },
-                { n: "Balon raketa", p: "Pomešaj sirće u flaši i sodu u balonu, pa navuci.", s: "Hemijska reakcija stvara gas CO2 koji širi balon." },
-                { n: "Ples grožđica", p: "Ubaci suve grožđice u čašu kisele vode.", s: "Mehurići gasa podižu grožđice na površinu." }
-            ],
-            osnovci: [
-                { n: "Lava lampa", p: "Pomešaj ulje, vodu, boju i šumeću tabletu.", s: "Razlika u gustini tečnosti i oslobađanje gasa CO2." },
-                { n: "Gumeno jaje", p: "Drži jaje u sirćetu 48 sati dok ljuska nestane.", s: "Sirćetna kiselina rastvara kalcijum-karbonat iz ljuske." },
-                { n: "Nevidljivo mastilo", p: "Piši limunom i zagrej papir sijalicom ili peglom.", s: "Oksidacija organskih materija pod uticajem toplote." },
-                { n: "Telefon na konac", p: "Poveži dve čaše dugačkim koncem.", s: "Prenos zvučnih talasa kroz čvrsta tela (vibracije)." },
-                { n: "Veštački sneg", p: "Pomešaj sodu bikarbonu i regenerator za kosu.", s: "Stvaranje polimernih veza." }
-            ],
-            srednjoskolci: [
-                { n: "Izolacija DNK", p: "Zgnječi jagodu, dodaj deterdžent i hladan alkohol.", s: "Liza ćelija i taloženje DNK niti u alkoholu." },
-                { n: "Elektroliza", p: "Koristi bateriju od 9V i olovke u slanoj vodi.", s: "Razlaganje molekula vode na vodonik i kiseonik strujom." },
-                { n: "Oobleck fluid", p: "Pomešaj skrob i vodu u srazmeri 2:1.", s: "Nenjutnovski fluidi menjaju viskoznost pod silom." },
-                { n: "Faradejev kavez", p: "Umotaj telefon u foliju da prekineš signal.", s: "Distribucija naelektrisanja blokira EM talase." },
-                { n: "Brzina svetlosti", p: "Meri tačke topljenja čokolade u mikrotalasnoj.", s: "Fizika stojnih talasa i njihova talasna dužina." }
-            ]
+  const io = new IntersectionObserver((es)=>{
+    es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+  },{threshold:.12});
+  function observeReveals(){
+    document.querySelectorAll('.rv:not(.in)').forEach((el,i)=>{
+      el.style.transitionDelay = (i%4*70)+'ms';
+      io.observe(el);
+    });
+  }
+
+  /* ---------- BLOG ---------- */
+  const STORE_KEY = 'prezivela_blogs_v1';
+
+  // Priče preuzete iz kampanje — služe kao polazni sadržaj
+  const SEED = [
+    {
+      cat:'Savet · Kontrole',
+      title:'Skener anksioznost: kako olakšati dane pred kontrolu',
+      author:'Ženski centar Milica',
+      excerpt:'Nemir pred pregled je normalan i ima svoje ime. Evo nekoliko stvari koje pomažu.',
+      body:'Za mnoge žene posle raka dojke, dani pred kontrolu su najteži deo cele godine. Misli se ubrzaju, san postaje lakši, a čekaonica deluje duža nego što jeste. Taj nemir ima čak i svoje ime — „skener anksioznost" — i potpuno je normalan.\n\nZapiši pitanja unapred. U trenutku pregleda lako je sve zaboraviti. Spisak pitanja pomaže da izađeš iz ordinacije sa odgovorima, a ne sa novim brigama.\n\nPovedi nekoga sa sobom. Dva para ušiju bolje zapamte šta je lekar rekao, a i vožnja kući je lakša kad nisi sama.\n\nPlaniraj nešto lepo posle. Kafa sa prijateljicom, šetnja, omiljeni film — mozak lakše podnese iščekivanje kada zna da ga čeka nešto prijatno.\n\nBudi nežna prema sebi tih dana. Ne moraš da budeš „jaka" ni produktivna. Dovoljno je da prebrodiš taj dan.'
+    },
+    {
+      cat:'Iskustvo · Posao',
+      title:'Povratak na posao: u redu je da ideš svojim tempom',
+      author:'Ženski centar Milica',
+      excerpt:'Ne moraš da budeš ista. I ne moraš sve da možeš odmah. Tvoj tempo je jedini ispravan.',
+      body:'Povratak na posao zvuči kao konačna pobeda i povratak u dugo čekanu „normalnost". Ali stvarnost često izgleda drugačije — i o tome se retko glasno priča.\n\nSačekaju nas nevidljivi izazovi: hronični umor, pad koncentracije, dobronamerna ali iscrpljujuća pitanja kolega i unutrašnji pritisak da svima dokažemo da smo „iste kao pre".\n\nTvoj tempo je jedini ispravan. Umor nakon lečenja nije znak slabosti, već posledica teške borbe.\n\nPostavi svoje granice. Imaš pravo da zadržiš privatnost: „Hvala što brinete, ali radije bih pričala o drugim stvarima."\n\nNe moraš ništa da dokazuješ. Normalno je da su ti prioriteti sada drugačiji. To nije korak unazad — to je tvoja nova realnost.'
+    },
+    {
+      cat:'Podrška · Materinstvo',
+      title:'Materinstvo dok živiš sa rizikom od povratka bolesti',
+      author:'Ženski centar Milica',
+      excerpt:'Kako pomiriti majčinstvo i strah — i koliko pričati sa decom.',
+      body:'Biti mama znači biti prisutna — za svaki domaći zadatak, svako oguljeno koleno i svaki rođendan. Kada si mama koja je preživela rak dojke, to prisustvo često nosi nevidljivi teret.\n\nPrilagodi istinu njihovim godinama. Za mlađu decu dovoljno je: „Mama redovno ide kod lekara da bi bila zdrava i da bi mogla dugo da se igra sa tobom."\n\nIskrenost gradi sigurnost. Nije strašno ako te dete ponekad vidi umornu ili zabrinutu — to je prilika da nauče da su sva osećanja normalna.\n\nOsloni se na činjenice. Inovativne terapije su tu upravo zato da rizik od povratka svedu na minimum, a tebi vrate pravo da planiraš decenije koje dolaze.'
+    }
+  ];
+
+  let posts = [];
+  function loadPosts(){
+    try{
+      const raw = localStorage.getItem(STORE_KEY);
+      if(raw){ posts = JSON.parse(raw); return; }
+    }catch(e){ /* storage nedostupan — koristi seed u memoriji */ }
+    posts = SEED.slice();
+  }
+  function savePosts(){
+    try{ localStorage.setItem(STORE_KEY, JSON.stringify(posts)); }catch(e){}
+  }
+
+  const grid = document.getElementById('blogGrid');
+  function esc(s){ return (s||'').replace(/[&<>"]/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+  function render(){
+    grid.innerHTML = '';
+    if(!posts.length){
+      grid.innerHTML = '<p class="blog-empty">Još nema blogova. Klikni „Dodaj blog" i podeli prvu priču.</p>';
+      return;
+    }
+    posts.forEach((p,idx)=>{
+      const b = document.createElement('button');
+      b.className = 'post rv';
+      b.innerHTML =
+        '<span class="cover"></span>'+
+        '<span class="body">'+
+          (p.cat?('<span class="cat">'+esc(p.cat)+'</span>'):'')+
+          '<h3>'+esc(p.title)+'</h3>'+
+          '<span class="ex">'+esc(p.excerpt||'')+'</span>'+
+          '<span class="meta">'+esc(p.author||'PREŽIVELA')+'<span class="dot"></span>'+(p.date||'')+'</span>'+
+        '</span>';
+      b.addEventListener('click', ()=>openRead(idx));
+      grid.appendChild(b);
+    });
+    observeReveals();
+  }
+
+  /* ---- modals ---- */
+  const readModal = document.getElementById('readModal');
+  const addModal = document.getElementById('addModal');
+  const editModal = document.getElementById('editModal');
+  function openRead(i){
+    const p = posts[i];
+    document.getElementById('readCat').textContent = p.cat||'';
+    document.getElementById('readTitle').textContent = p.title;
+    document.getElementById('readMeta').textContent = (p.author||'PREŽIVELA') + (p.date? ' · '+p.date : '');
+    document.getElementById('readContent').textContent = p.body||'';
+    openModal(readModal);
+  }
+  function openModal(m){ m.classList.add('open'); m.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeModal(m){ m.classList.remove('open'); m.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  document.querySelectorAll('[data-close]').forEach(el=>{
+    el.addEventListener('click', ()=>closeModal(el.closest('.modal')));
+  });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeModal(readModal); closeModal(addModal); closeModal(editModal);} });
+
+  document.getElementById('openAdd').addEventListener('click', ()=>openModal(addModal));
+  document.getElementById('openEdit').addEventListener('click', ()=>openModal(editModal));
+  document.getElementById('openEdit2').addEventListener('click', ()=>openModal(editModal));
+  document.getElementById('saveBlog').addEventListener('click', ()=>{
+    const title = document.getElementById('fTitle').value.trim();
+    const body  = document.getElementById('fBody').value.trim();
+    if(!title || !body){
+      if(!title) document.getElementById('fTitle').focus();
+      else document.getElementById('fBody').focus();
+      return;
+    }
+    const now = new Date();
+    const date = now.toLocaleDateString('sr-RS',{day:'numeric',month:'long',year:'numeric'});
+    const cat = document.getElementById('fCat').value.trim() || 'Priča';
+    const author = document.getElementById('fAuthor').value.trim() || 'Anonimno';
+    let excerpt = document.getElementById('fExcerpt').value.trim();
+    if(!excerpt) excerpt = body.slice(0,120) + (body.length>120?'…':'');
+    posts.unshift({cat,title,author,excerpt,body,date});
+    savePosts();
+    render();
+    // reset & close
+    ['fCat','fTitle','fAuthor','fExcerpt','fBody'].forEach(id=>document.getElementById(id).value='');
+    closeModal(addModal);
+    document.getElementById('price').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  /* ---------- SETTINGS: logo & hero background ---------- */
+  const SETTINGS_KEY = 'prezivela_settings_v1';
+  const DEFAULT_LOGO_SVG = document.getElementById('logoSlot').innerHTML;
+  let settings = {};
+  function loadSettings(){
+    try{ settings = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; }catch(e){ settings = {}; }
+  }
+  function saveSettings(){
+    try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }catch(e){}
+  }
+  function applySettings(){
+    const heroEl = document.querySelector('.hero');
+    if(settings.heroBg){
+      heroEl.style.backgroundImage = 'url("'+settings.heroBg+'")';
+      heroEl.classList.add('has-bg');
+    }else{
+      heroEl.style.backgroundImage = '';
+      heroEl.classList.remove('has-bg');
+    }
+    document.getElementById('logoSlot').innerHTML = settings.logo
+      ? '<img class="logo-img" src="'+settings.logo+'" alt="Logo">'
+      : DEFAULT_LOGO_SVG;
+    const logoPreview = document.getElementById('logoPreview');
+    logoPreview.src = settings.logo || '';
+    logoPreview.style.display = settings.logo ? 'block' : 'none';
+    const bgPreview = document.getElementById('bgPreview');
+    bgPreview.src = settings.heroBg || '';
+    bgPreview.style.display = settings.heroBg ? 'block' : 'none';
+  }
+  function fileToResizedDataURL(file, maxW){
+    return new Promise((resolve, reject)=>{
+      const reader = new FileReader();
+      reader.onerror = reject;
+      reader.onload = () => {
+        const img = new Image();
+        img.onerror = reject;
+        img.onload = () => {
+          const scale = Math.min(1, maxW / img.width);
+          const w = Math.max(1, Math.round(img.width * scale));
+          const h = Math.max(1, Math.round(img.height * scale));
+          const canvas = document.createElement('canvas');
+          canvas.width = w; canvas.height = h;
+          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
+          resolve(canvas.toDataURL('image/jpeg', 0.85));
+        };
+        img.src = reader.result;
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+  document.getElementById('logoPick').addEventListener('click', ()=>document.getElementById('logoFile').click());
+  document.getElementById('logoFile').addEventListener('change', async (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    settings.logo = await fileToResizedDataURL(file, 240);
+    saveSettings();
+    applySettings();
+  });
+  document.getElementById('logoReset').addEventListener('click', ()=>{
+    delete settings.logo;
+    saveSettings();
+    applySettings();
+  });
+  document.getElementById('bgPick').addEventListener('click', ()=>document.getElementById('bgFile').click());
+  document.getElementById('bgFile').addEventListener('change', async (e)=>{
+    const file = e.target.files[0];
+    if(!file) return;
+    settings.heroBg = await fileToResizedDataURL(file, 1920);
+    saveSettings();
+    applySettings();
+  });
+  document.getElementById('bgReset').addEventListener('click', ()=>{
+    delete settings.heroBg;
+    saveSettings();
+    applySettings();
+  });
+
+  /* ---------- INSTAGRAM: live posts from Ženski centar ---------- */
+  const IG_KEY = 'prezivela_instagram_v1';
+  let igPosts = [];
+  function loadIg(){
+    try{ igPosts = JSON.parse(localStorage.getItem(IG_KEY)) || []; }catch(e){ igPosts = []; }
+  }
+  function saveIg(){
+    try{ localStorage.setItem(IG_KEY, JSON.stringify(igPosts)); }catch(e){}
+  }
+  function loadIgEmbedScript(){
+    if(window.instgrm){ window.instgrm.Embeds.process(); return; }
+    if(document.getElementById('ig-embed-script')) return;
+    const s = document.createElement('script');
+    s.id = 'ig-embed-script';
+    s.async = true;
+    s.src = 'https://www.instagram.com/embed.js';
+    s.onload = () => { if(window.instgrm) window.instgrm.Embeds.process(); };
+    document.body.appendChild(s);
+  }
+  function renderIg(){
+    const grid = document.getElementById('instaGrid');
+    grid.innerHTML = '';
+    if(!igPosts.length){
+      grid.innerHTML = '<div class="insta-empty">Još nema dodatih objava. Klikni <b>„Dodaj objavu"</b> i nalepi link ka javnoj Instagram objavi Ženskog centra Milica.</div>';
+      return;
+    }
+    igPosts.forEach(url=>{
+      const card = document.createElement('div');
+      card.className = 'insta-card';
+      card.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="'+esc(url)+'" data-instgrm-version="14" style="width:100%;margin:0"></blockquote>';
+      grid.appendChild(card);
+    });
+    loadIgEmbedScript();
+  }
+  function renderIgList(){
+    const list = document.getElementById('igList');
+    list.innerHTML = '';
+    igPosts.forEach((url,i)=>{
+      const row = document.createElement('div');
+      row.className = 'ig-row';
+      const span = document.createElement('span');
+      span.textContent = url;
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.setAttribute('aria-label','Ukloni');
+      btn.textContent = '✕';
+      btn.addEventListener('click', ()=>{
+        igPosts.splice(i,1);
+        saveIg(); renderIg(); renderIgList();
+      });
+      row.appendChild(span); row.appendChild(btn);
+      list.appendChild(row);
+    });
+  }
+  document.getElementById('igAdd').addEventListener('click', ()=>{
+    const input = document.getElementById('igUrl');
+    const url = input.value.trim();
+    if(!/^https?:\/\/(www\.)?instagram\.com\//i.test(url)){
+      input.focus();
+      return;
+    }
+    igPosts.unshift(url);
+    saveIg();
+    renderIg();
+    renderIgList();
+    input.value = '';
+  });
+
+  /* ---------- STAT COUNT-UP ---------- */
+  function initCounters(){
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const countIo = new IntersectionObserver((entries)=>{
+      entries.forEach(entry=>{
+        if(!entry.isIntersecting) return;
+        const el = entry.target;
+        countIo.unobserve(el);
+        const target = parseInt(el.dataset.count, 10);
+        const suffix = el.dataset.suffix || '';
+        if(reduceMotion){ el.textContent = target + suffix; return; }
+        const start = performance.now();
+        const duration = 1200;
+        function tick(now){
+          const p = Math.min(1, (now - start) / duration);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if(p < 1) requestAnimationFrame(tick);
         }
-    };
+        requestAnimationFrame(tick);
+      });
+    },{threshold:.5});
+    document.querySelectorAll('.num[data-count]').forEach(el=>countIo.observe(el));
+  }
 
-    // PAMĆENJE KORISNIKA
-    window.onload = function() {
-        if (localStorage.getItem('stemBazaOtkljucana') === 'true') {
-            prikaziBazu(true);
-        }
-    };
-
-    let qIdx = 0;
-    const pitanja = [
-        { q: "Pitanje 1: Koji uzrast najčešće podučavate?", a: ["Predškolci", "Mlađi osnovci", "Stariji osnovci"] },
-        { q: "Pitanje 2: Koliko vremena imate po sesiji?", a: ["15-30 min", "45-60 min", "Dvočas"] },
-        { q: "Pitanje 3: Da li deca rade u grupama?", a: ["Grupno", "Samostalno", "Kombinovano"] },
-        { q: "Pitanje 4: Koji efekat želite?", a: ["WOW efekat", "Logika", "Gradnja"] },
-        { q: "Pitanje 5: Koliko dece učestvuje?", a: ["Do 5", "5-15", "15+"] },
-        { q: "Pitanje 6: Da li mora biti prenosivo?", a: ["Da", "Ne", "Svejedno"] },
-        { q: "Pitanje 7: Budžet za materijal?", a: ["Minimalan", "Srednji", "Visok"] },
-        { q: "Pitanje 8: Koji tip materijala?", a: ["Kuhinja", "Alati", "Elektronika"] },
-        { q: "Pitanje 9: Šta je najveći izazov?", a: ["Ideje", "Teorija", "Oprema"] },
-        { q: "Pitanje 10: Vaše iskustvo u STEM radu?", a: ["Početnik", "Napredni", "Stručnjak"] }
-    ];
-
-    function startQuiz() {
-        document.getElementById('step-0').classList.remove('step-active');
-        document.getElementById('step-1').classList.add('step-active');
-        prikaziPitanje();
-        return true; 
-    }
-
-    function prikaziPitanje() {
-        const q = pitanja[qIdx];
-        document.getElementById('q-progress').innerText = `Pitanje ${qIdx + 1} od 10`;
-        document.getElementById('q-text').innerText = q.q;
-        const opts = document.getElementById('q-options');
-        opts.innerHTML = '';
-        q.a.forEach(opt => {
-            const btn = document.createElement('button');
-            btn.className = "w-full p-4 rounded-2xl border-2 border-gray-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all font-semibold text-gray-700 text-left";
-            btn.innerText = opt;
-            btn.onclick = sledece;
-            opts.appendChild(btn);
-        });
-    }
-
-    function sledece() {
-        qIdx++;
-        if (qIdx < pitanja.length) { prikaziPitanje(); } 
-        else {
-            document.getElementById('step-1').classList.remove('step-active');
-            document.getElementById('step-2').classList.add('step-active');
-        }
-    }
-
-    function prikaziBazu(skipScroll = false) {
-        localStorage.setItem('stemBazaOtkljucana', 'true');
-        document.getElementById('quiz-container').classList.add('hidden');
-        document.getElementById('database-section').classList.remove('hidden');
-        if(!skipScroll) window.scrollTo(0,0);
-        // Aktivira prvi tab
-        prikazi('predskolci', document.querySelector('.cat-btn'));
-    }
-
-    function getNedeljniIndeks(max) {
-        const d = new Date();
-        const start = new Date(d.getFullYear(), 0, 1);
-        const diff = Math.floor((d - start) / (24 * 60 * 60 * 1000));
-        return Math.ceil(diff / 7) % max;
-    }
-
-    function prikazi(kat, btn) {
-        document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('tab-active'));
-        if(btn) btn.classList.add('tab-active');
-        
-        document.getElementById('tekst-vaznosti').innerText = podaci.vaznost[kat];
-        const ekran = document.getElementById('ekran');
-        ekran.innerHTML = '';
-
-        const idx = getNedeljniIndeks(podaci.eksperimenti[kat].length);
-        const expNedelje = podaci.eksperimenti[kat][idx];
-
-        // ZLATNA KARTICA NEDELJE
-        ekran.innerHTML += `
-            <div class="md:col-span-2 lg:col-span-3 bg-gradient-to-br from-indigo-600 to-indigo-900 p-1 text-white rounded-[3rem] mb-6 shadow-2xl border-4 border-yellow-400">
-                <div class="p-8">
-                    <span class="bg-yellow-400 text-indigo-900 text-[10px] font-black px-4 py-1.5 rounded-full uppercase mb-4 inline-block tracking-widest italic font-bold">⭐ EKSPERIMENT OVE NEDELJE</span>
-                    <h3 class="text-4xl font-bold mb-4 tracking-tight">${expNedelje.n}</h3>
-                    <div class="grid md:grid-cols-2 gap-8">
-                        <div>
-                            <p class="text-indigo-200 text-xs font-black uppercase mb-2 tracking-widest italic">Postupak:</p>
-                            <p class="text-white leading-relaxed text-lg">${expNedelje.p}</p>
-                        </div>
-                        <div class="bg-indigo-800/50 p-6 rounded-3xl border border-indigo-400/30 text-indigo-50 italic">
-                            <p class="text-indigo-200 text-xs font-black uppercase mb-2 tracking-widest not-italic">Naučno objašnjenje:</p>
-                            ${expNedelje.s}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-
-        podaci.eksperimenti[kat].forEach((exp, i) => {
-            if(i === idx) return; 
-            ekran.innerHTML += `
-                <div class="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 card-hover flex flex-col h-full">
-                    <div class="w-14 h-14 bg-indigo-50 text-indigo-600 rounded-2xl flex items-center justify-center mb-6 text-2xl"><i class="fas fa-flask"></i></div>
-                    <h3 class="text-2xl font-bold mb-4 text-gray-800 tracking-tight">${exp.n}</h3>
-                    <div class="flex-grow">
-                        <p class="text-indigo-600 text-xs font-black uppercase tracking-wider mb-2 italic">Postupak:</p>
-                        <p class="text-gray-600 leading-relaxed mb-6 text-sm">${exp.p}</p>
-                    </div>
-                    <div class="bg-indigo-50 p-5 rounded-2xl text-indigo-900 text-sm border border-indigo-100">
-                        <span class="font-bold uppercase text-[10px]">Nauka:</span> ${exp.s}
-                    </div>
-                </div>
-            `;
-        });
-    }
+  loadPosts();
+  render();
+  loadSettings();
+  applySettings();
+  loadIg();
+  renderIg();
+  renderIgList();
+  initCounters();
+  observeReveals();
 </script>
 </body>
 </html>
