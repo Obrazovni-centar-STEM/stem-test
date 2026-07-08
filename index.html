@@ -60,23 +60,14 @@
     transition:transform .18s ease,background .18s ease;white-space:nowrap;
   }
   .nav-cta:hover{background:var(--purple);transform:translateY(-1px)}
-  .nav-edit{
-    text-decoration:none;font-family:inherit;font-weight:700;font-size:.85rem;cursor:pointer;
-    padding:.55em 1.05em;border-radius:999px;background:transparent;border:1.5px solid var(--line);color:var(--navy);
-    display:inline-flex;align-items:center;gap:.5em;transition:border-color .18s ease,transform .18s ease;white-space:nowrap;
-  }
-  .nav-edit:hover{border-color:var(--navy);transform:translateY(-1px)}
-  .brand .logo-img{width:32px;height:32px;object-fit:contain;border-radius:9px;flex:none}
 
   /* ===== HERO ===== */
-  .hero{position:relative;padding:76px 0 30px;overflow:hidden;background-size:cover;background-position:center;transition:background-image .3s ease}
+  .hero{position:relative;padding:76px 0 30px;overflow:hidden}
   .hero-glow{
     position:absolute;inset:-20% -10% auto auto;width:640px;height:640px;
     background:radial-gradient(circle at 70% 30%,rgba(198,49,138,.16),transparent 62%);
     pointer-events:none;filter:blur(6px);z-index:0;
   }
-  .hero-overlay{position:absolute;inset:0;background:var(--paper);opacity:0;transition:opacity .35s ease;z-index:0;pointer-events:none}
-  .hero.has-bg .hero-overlay{opacity:.85}
   .hero .wrap{position:relative;z-index:1}
   .hero-shape{position:absolute;border-radius:50%;opacity:.55;pointer-events:none;animation:floaty 7s ease-in-out infinite;z-index:0}
   .hero-shape.s1{width:14px;height:14px;background:var(--pink);top:20%;left:5%;animation-delay:0s}
@@ -252,32 +243,6 @@
   .form-actions .cancel{background:transparent;border:1.5px solid var(--line);color:var(--navy)}
   .form-actions .cancel:hover{border-color:var(--navy)}
 
-  /* ===== EDIT PANEL ===== */
-  .edit-group{margin-bottom:26px;padding-bottom:24px;border-bottom:1px solid var(--line)}
-  .edit-group:last-of-type{border-bottom:none;padding-bottom:0;margin-bottom:0}
-  .edit-group h3{font-size:1.02rem;color:var(--navy);margin-bottom:.35em}
-  .edit-group .hint{font-size:.85rem;color:var(--muted);margin-top:.5em}
-  .thumb-row{display:flex;align-items:center;gap:14px;margin-top:12px;flex-wrap:wrap}
-  .thumb{width:60px;height:60px;border-radius:12px;object-fit:cover;border:1px solid var(--line);background:#fff}
-  .thumb.round{border-radius:50%}
-  .mini-btn{font-family:inherit;font-size:.82rem;font-weight:700;cursor:pointer;border:1.5px solid var(--line);background:#fff;color:var(--navy);padding:.55em .95em;border-radius:999px;transition:border-color .18s ease}
-  .mini-btn:hover{border-color:var(--navy)}
-  .ig-input-row{display:flex;gap:10px;margin-top:12px}
-  .ig-input-row input{flex:1}
-  .ig-list{display:flex;flex-direction:column;gap:8px;margin-top:14px}
-  .ig-row{display:flex;align-items:center;justify-content:space-between;gap:10px;background:#fff;border:1px solid var(--line);border-radius:12px;padding:.6em .95em;font-size:.85rem;color:var(--ink)}
-  .ig-row span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .ig-row button{flex:none;background:none;border:none;color:var(--muted);cursor:pointer;font-size:1.05rem;line-height:1}
-  .ig-row button:hover{color:var(--magenta)}
-
-  /* ===== INSTAGRAM ===== */
-  .insta{padding:20px 0 96px}
-  .insta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:22px;justify-items:center}
-  .insta-grid > *{width:100%;max-width:400px}
-  .insta-card{border-radius:22px;overflow:hidden;border:1px solid var(--line);background:#fff;display:flex;justify-content:center}
-  .insta-empty{grid-column:1/-1;text-align:center;color:var(--muted);background:#fff;border:1.5px dashed var(--line);border-radius:22px;padding:48px 24px;max-width:none;width:100%}
-  .insta-empty b{color:var(--navy)}
-
   /* reveal */
   .rv{opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease}
   .rv.in{opacity:1;transform:none}
@@ -293,7 +258,6 @@
     .wrap{padding:0 20px}
     .grid,.blog-grid{grid-template-columns:1fr}
     .nav-cta{display:none}
-    .nav-edit span{display:none}
     .comma .wrap{padding:70px 20px}
     .btn{width:100%;justify-content:center}
     .modal-card{padding:32px 24px 34px}
@@ -319,26 +283,17 @@
 <nav>
   <div class="wrap nav-in">
     <a href="#top" class="brand">
-      <span id="logoSlot">
-        <svg class="rib" viewBox="0 0 24 30" fill="none" aria-hidden="true">
-          <path d="M12 15 L4 29 L8.5 29 L12 21.5 M12 15 L20 29 L15.5 29 L12 21.5" stroke="url(#rib)" stroke-width="3" stroke-linejoin="round"/>
-          <path d="M12 2 C7 5 6 10 9 15 C6 20 8 24 12 21 C16 24 18 20 15 15 C18 10 17 5 12 2 Z" fill="none" stroke="url(#rib)" stroke-width="2.4"/>
-        </svg>
-      </span>
+      <svg class="rib" viewBox="0 0 24 30" fill="none" aria-hidden="true">
+        <path d="M12 15 L4 29 L8.5 29 L12 21.5 M12 15 L20 29 L15.5 29 L12 21.5" stroke="url(#rib)" stroke-width="3" stroke-linejoin="round"/>
+        <path d="M12 2 C7 5 6 10 9 15 C6 20 8 24 12 21 C16 24 18 20 15 15 C18 10 17 5 12 2 Z" fill="none" stroke="url(#rib)" stroke-width="2.4"/>
+      </svg>
       PRE<b>ŽIVELA</b>
     </a>
-    <div style="display:flex;align-items:center;gap:10px">
-      <button class="nav-edit" id="openEdit" type="button">
-        <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M11.5 2.5 13.5 4.5 5 13 2.5 13.5 3 11 11.5 2.5Z" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg>
-        <span>Uredi stranicu</span>
-      </button>
-      <a href="#podrska" class="nav-cta">Pozovi za podršku</a>
-    </div>
+    <a href="#podrska" class="nav-cta">Pozovi za podršku</a>
   </div>
 </nav>
 
 <header id="top" class="hero">
-  <div class="hero-overlay"></div>
   <div class="hero-glow"></div>
   <span class="hero-shape s1" aria-hidden="true"></span>
   <span class="hero-shape s2" aria-hidden="true"></span>
@@ -433,23 +388,6 @@
   </div>
 </section>
 
-<section id="instagram" class="insta">
-  <div class="wrap">
-    <div class="blog-head">
-      <div class="sec-head rv" style="margin-bottom:0">
-        <span class="eyebrow">Uživo sa Instagrama</span>
-        <h2>Pratite Ženski centar Milica.</h2>
-        <p>Najnovije objave, priče i pozivi na događaje — direktno sa zvaničnog Instagram profila.</p>
-      </div>
-      <button class="add-btn rv" id="openEdit2" type="button">
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        Dodaj objavu
-      </button>
-    </div>
-    <div class="insta-grid" id="instaGrid"></div>
-  </div>
-</section>
-
 <section id="price" class="blog">
   <div class="wrap">
     <div class="blog-head">
@@ -509,52 +447,6 @@
     <div class="form-actions">
       <button class="btn btn-primary" id="saveBlog">Objavi blog</button>
       <button class="btn cancel" data-close>Odustani</button>
-    </div>
-  </div>
-</div>
-
-<!-- Edit modal -->
-<div class="modal" id="editModal" aria-hidden="true">
-  <div class="modal-bg" data-close></div>
-  <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="editTitle">
-    <button class="modal-close" data-close aria-label="Zatvori">✕</button>
-    <span class="cat">Podešavanja stranice</span>
-    <h2 id="editTitle" style="margin-bottom:1em">Uredi stranicu</h2>
-
-    <div class="edit-group">
-      <h3>Logo</h3>
-      <p class="hint">Zameni znak pored naziva PREŽIVELA u navigaciji.</p>
-      <div class="thumb-row">
-        <img class="thumb round" id="logoPreview" alt="Pregled loga" style="display:none">
-        <input type="file" id="logoFile" accept="image/*" style="display:none">
-        <button class="mini-btn" id="logoPick" type="button">Izaberi sliku</button>
-        <button class="mini-btn" id="logoReset" type="button">Vrati podrazumevano</button>
-      </div>
-    </div>
-
-    <div class="edit-group">
-      <h3>Pozadina hero sekcije</h3>
-      <p class="hint">Dodaj fotografiju u pozadini naslovne sekcije (na vrhu stranice).</p>
-      <div class="thumb-row">
-        <img class="thumb" id="bgPreview" alt="Pregled pozadine" style="display:none">
-        <input type="file" id="bgFile" accept="image/*" style="display:none">
-        <button class="mini-btn" id="bgPick" type="button">Izaberi sliku</button>
-        <button class="mini-btn" id="bgReset" type="button">Ukloni pozadinu</button>
-      </div>
-    </div>
-
-    <div class="edit-group">
-      <h3>Instagram objave</h3>
-      <p class="hint">Nalepi link ka javnoj Instagram objavi Ženskog centra Milica (npr. instagram.com/p/xxxxx) da bi se prikazala uživo na sajtu.</p>
-      <div class="ig-input-row">
-        <input type="text" id="igUrl" placeholder="https://www.instagram.com/p/…">
-        <button class="btn btn-primary" id="igAdd" style="padding:.7em 1.2em">Dodaj</button>
-      </div>
-      <div class="ig-list" id="igList"></div>
-    </div>
-
-    <div class="form-actions">
-      <button class="btn cancel" data-close>Gotovo</button>
     </div>
   </div>
 </div>
@@ -689,7 +581,6 @@
   /* ---- modals ---- */
   const readModal = document.getElementById('readModal');
   const addModal = document.getElementById('addModal');
-  const editModal = document.getElementById('editModal');
   function openRead(i){
     const p = posts[i];
     document.getElementById('readCat').textContent = p.cat||'';
@@ -703,11 +594,9 @@
   document.querySelectorAll('[data-close]').forEach(el=>{
     el.addEventListener('click', ()=>closeModal(el.closest('.modal')));
   });
-  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeModal(readModal); closeModal(addModal); closeModal(editModal);} });
+  document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeModal(readModal); closeModal(addModal);} });
 
   document.getElementById('openAdd').addEventListener('click', ()=>openModal(addModal));
-  document.getElementById('openEdit').addEventListener('click', ()=>openModal(editModal));
-  document.getElementById('openEdit2').addEventListener('click', ()=>openModal(editModal));
   document.getElementById('saveBlog').addEventListener('click', ()=>{
     const title = document.getElementById('fTitle').value.trim();
     const body  = document.getElementById('fBody').value.trim();
@@ -729,151 +618,6 @@
     ['fCat','fTitle','fAuthor','fExcerpt','fBody'].forEach(id=>document.getElementById(id).value='');
     closeModal(addModal);
     document.getElementById('price').scrollIntoView({behavior:'smooth',block:'start'});
-  });
-
-  /* ---------- SETTINGS: logo & hero background ---------- */
-  const SETTINGS_KEY = 'prezivela_settings_v1';
-  const DEFAULT_LOGO_SVG = document.getElementById('logoSlot').innerHTML;
-  let settings = {};
-  function loadSettings(){
-    try{ settings = JSON.parse(localStorage.getItem(SETTINGS_KEY)) || {}; }catch(e){ settings = {}; }
-  }
-  function saveSettings(){
-    try{ localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings)); }catch(e){}
-  }
-  function applySettings(){
-    const heroEl = document.querySelector('.hero');
-    if(settings.heroBg){
-      heroEl.style.backgroundImage = 'url("'+settings.heroBg+'")';
-      heroEl.classList.add('has-bg');
-    }else{
-      heroEl.style.backgroundImage = '';
-      heroEl.classList.remove('has-bg');
-    }
-    document.getElementById('logoSlot').innerHTML = settings.logo
-      ? '<img class="logo-img" src="'+settings.logo+'" alt="Logo">'
-      : DEFAULT_LOGO_SVG;
-    const logoPreview = document.getElementById('logoPreview');
-    logoPreview.src = settings.logo || '';
-    logoPreview.style.display = settings.logo ? 'block' : 'none';
-    const bgPreview = document.getElementById('bgPreview');
-    bgPreview.src = settings.heroBg || '';
-    bgPreview.style.display = settings.heroBg ? 'block' : 'none';
-  }
-  function fileToResizedDataURL(file, maxW){
-    return new Promise((resolve, reject)=>{
-      const reader = new FileReader();
-      reader.onerror = reject;
-      reader.onload = () => {
-        const img = new Image();
-        img.onerror = reject;
-        img.onload = () => {
-          const scale = Math.min(1, maxW / img.width);
-          const w = Math.max(1, Math.round(img.width * scale));
-          const h = Math.max(1, Math.round(img.height * scale));
-          const canvas = document.createElement('canvas');
-          canvas.width = w; canvas.height = h;
-          canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-          resolve(canvas.toDataURL('image/jpeg', 0.85));
-        };
-        img.src = reader.result;
-      };
-      reader.readAsDataURL(file);
-    });
-  }
-  document.getElementById('logoPick').addEventListener('click', ()=>document.getElementById('logoFile').click());
-  document.getElementById('logoFile').addEventListener('change', async (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    settings.logo = await fileToResizedDataURL(file, 240);
-    saveSettings();
-    applySettings();
-  });
-  document.getElementById('logoReset').addEventListener('click', ()=>{
-    delete settings.logo;
-    saveSettings();
-    applySettings();
-  });
-  document.getElementById('bgPick').addEventListener('click', ()=>document.getElementById('bgFile').click());
-  document.getElementById('bgFile').addEventListener('change', async (e)=>{
-    const file = e.target.files[0];
-    if(!file) return;
-    settings.heroBg = await fileToResizedDataURL(file, 1920);
-    saveSettings();
-    applySettings();
-  });
-  document.getElementById('bgReset').addEventListener('click', ()=>{
-    delete settings.heroBg;
-    saveSettings();
-    applySettings();
-  });
-
-  /* ---------- INSTAGRAM: live posts from Ženski centar ---------- */
-  const IG_KEY = 'prezivela_instagram_v1';
-  let igPosts = [];
-  function loadIg(){
-    try{ igPosts = JSON.parse(localStorage.getItem(IG_KEY)) || []; }catch(e){ igPosts = []; }
-  }
-  function saveIg(){
-    try{ localStorage.setItem(IG_KEY, JSON.stringify(igPosts)); }catch(e){}
-  }
-  function loadIgEmbedScript(){
-    if(window.instgrm){ window.instgrm.Embeds.process(); return; }
-    if(document.getElementById('ig-embed-script')) return;
-    const s = document.createElement('script');
-    s.id = 'ig-embed-script';
-    s.async = true;
-    s.src = 'https://www.instagram.com/embed.js';
-    s.onload = () => { if(window.instgrm) window.instgrm.Embeds.process(); };
-    document.body.appendChild(s);
-  }
-  function renderIg(){
-    const grid = document.getElementById('instaGrid');
-    grid.innerHTML = '';
-    if(!igPosts.length){
-      grid.innerHTML = '<div class="insta-empty">Još nema dodatih objava. Klikni <b>„Dodaj objavu"</b> i nalepi link ka javnoj Instagram objavi Ženskog centra Milica.</div>';
-      return;
-    }
-    igPosts.forEach(url=>{
-      const card = document.createElement('div');
-      card.className = 'insta-card';
-      card.innerHTML = '<blockquote class="instagram-media" data-instgrm-permalink="'+esc(url)+'" data-instgrm-version="14" style="width:100%;margin:0"></blockquote>';
-      grid.appendChild(card);
-    });
-    loadIgEmbedScript();
-  }
-  function renderIgList(){
-    const list = document.getElementById('igList');
-    list.innerHTML = '';
-    igPosts.forEach((url,i)=>{
-      const row = document.createElement('div');
-      row.className = 'ig-row';
-      const span = document.createElement('span');
-      span.textContent = url;
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.setAttribute('aria-label','Ukloni');
-      btn.textContent = '✕';
-      btn.addEventListener('click', ()=>{
-        igPosts.splice(i,1);
-        saveIg(); renderIg(); renderIgList();
-      });
-      row.appendChild(span); row.appendChild(btn);
-      list.appendChild(row);
-    });
-  }
-  document.getElementById('igAdd').addEventListener('click', ()=>{
-    const input = document.getElementById('igUrl');
-    const url = input.value.trim();
-    if(!/^https?:\/\/(www\.)?instagram\.com\//i.test(url)){
-      input.focus();
-      return;
-    }
-    igPosts.unshift(url);
-    saveIg();
-    renderIg();
-    renderIgList();
-    input.value = '';
   });
 
   /* ---------- STAT COUNT-UP ---------- */
@@ -903,11 +647,6 @@
 
   loadPosts();
   render();
-  loadSettings();
-  applySettings();
-  loadIg();
-  renderIg();
-  renderIgList();
   initCounters();
   observeReveals();
 </script>
